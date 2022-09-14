@@ -1,25 +1,29 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
-
+import { useEffect, useState } from "react";
+import Content from "./components/Content";
+import FilterBar from "./components/FilterBar";
+import Header from "./components/Header";
+import ProductPage from "./components/ProductPage";
+import useWindowSize from "./hooks/useWindowSize";
+import LoginPage from "./pages/LoginPage";
+import RegistrationPage from "./pages/RegistrationPage";
+import { Routes, Route } from 'react-router-dom'
+import Layout from "./components/Layout";
+import HeaderLayout from "./components/HeaderLayout";
+import AddProductPage from "./pages/AddProductPage";
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Routes>
+      <Route path="/" element={<Layout />}>
+        {/* Public Routes */}
+        <Route path="login" element={<LoginPage />} /> 
+        <Route path="register" element={<RegistrationPage />} />
+        <Route path="" element={<HeaderLayout />}>
+          <Route index element={<Content />} />
+          <Route path="product/:id" element={<ProductPage />} />
+          <Route path="product/new" element={<AddProductPage />} />
+        </Route>
+      </Route>
+  </Routes>
   );
 }
 

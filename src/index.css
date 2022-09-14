@@ -1,13 +1,54 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;500;600;700;800;900&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  h1 {
+    @apply font-bold text-2xl md:text-3xl lg:text-4xl
+  }
+
+  h2 {
+    @apply font-semibold text-xl md:text-2xl lg:text-3xl
+  }
+
+  h3 {
+    @apply font-medium text-lg md:text-xl lg:text-2xl
+  }
+
+  input, textarea {
+    @apply bg-transparent outline-none focus:outline-purplePrimary outline-offset-1 border hover:border-purplePrimary focus:border-purplePrimary duration-200 ease-out rounded-md
+  }
+
+  input[type=checkbox] {
+    @apply h-4 w-4 cursor-pointer accent-purplePrimary
+  }
+
+
+  img {
+    @apply w-full bg-cover
+  }
+  :root {
+    --color-light-primary: 196 196 196;
+    --color-light-secondary: 248 249 253;
+    --purple-primary: 148 0 211;
+    --purple-secondary: 243 227 253
+  }
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+html,
+body {
+  margin: 0;
+  padding: 0;
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+  max-width: 100vw;
+  min-height: 100vh;
+  font-family: 'Cairo', sans-serif;
+  user-select: none;
+}
+
+
+.multicolor {
+  background-image: linear-gradient(to left, violet, indigo, blue, green, yellow, orange, red);
 }
