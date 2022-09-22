@@ -1,15 +1,6 @@
-/*Product must have :
--Title
--Description
--Color
--Type
--Sizes
--Price
--Gender
--CategoryId
-*/
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { CATEGORIES, COLORS, SIZES, TYPE_FILTERS } from '../config/config';
+import { IoTrashBinOutline } from '../Icons'
 const AddProductPage = () => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -18,7 +9,29 @@ const AddProductPage = () => {
   const [size, setSize] = useState<string[]>();
   const [gender, cetGender] = useState<'Woman' | 'Man' | 'Unisex'>()
   const [category, setCategory] = useState('')
-  const [price, setPrice] = useState<number>(0)
+  const [price, setPrice] = useState(0)
+  const [src, setSrc] = useState<string[]>([])
+  const fileRef = useRef<HTMLInputElement | null>(null!)
+  
+
+  const previewFiles = () => {
+    const files = fileRef.current?.files!
+    const reader = new FileReader();
+
+    reader.onloadend = () => setSrc([...src, String(reader.result)]);
+
+    for(let i = 0; i < files.length; i++) {
+      if(files[i]) {
+        reader.readAsDataURL(files[i])
+      } else {
+        setSrc([])
+      }
+    }
+  }
+
+  const handleDelete = (imgSrc: string) => {
+    setSrc(src.filter(el => el !== imgSrc))
+  }
 
 
   return (
@@ -142,14 +155,38 @@ const AddProductPage = () => {
                 className='max-w-[200px] p-2 rounded-md'
                 />
               </label>
-              <label htmlFor="price" className='flex flex-col gap-2'>
+              <label htmlFor="files" className='flex flex-col gap-2 relative'>
                 Images:
                 <input 
+                ref={fileRef}
+                multiple
+                accept='image/*'
+                onChange={previewFiles}
+                id='files'
                 type="file" 
                 title='Images'
-                className='file:p-2 file:bg-purplePrimary w-fit file:text-white file:border-none file:cursor-pointer file:rounded-md file:b'
+                className='file:p-2 file:bg-purplePrimary w-fit file:text-white file:border-none file:cursor-pointer file:rounded-md opacity-0'
                 />
+                <button 
+                type='button'
+                className='p-2 bg-purplePrimary text-white border-none font-semibold rounded-md w-fit absolute top-8 z-[-1]'
+                >   
+                    Add Pictures
+                </button>
               </label>
+
+              {src.length >= 0  && <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2'>
+                  {src.map((img, index) => (
+                    <div key={index} className='border border-purplePrimary rounded-md overflow-hidden h-fit relative'>
+                      <button 
+                      type='button'
+                      onClick={() => handleDelete(img)}
+                      title='Delete' 
+                      className='absolute z-20 top-2 right-2 text-xl hover:scale-150  duration-200 ease-in text-red-600'><IoTrashBinOutline /></button>
+                      <img src={img} alt="Testing" />
+                    </div>
+                  ))}
+              </div>}
 
               <div className='actions flex justify-end gap-2 items-center'>
                 <button 
