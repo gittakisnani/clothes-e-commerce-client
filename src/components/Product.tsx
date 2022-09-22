@@ -6,6 +6,7 @@ const Product = ({ onClick } : { onClick?: () => void }) => {
   const [smallModelText, setSmallModelText] = useState('')
   const likeButtonRef = useRef<null | HTMLButtonElement>(null!)
   const cartButtonRef = useRef<null | HTMLButtonElement>(null!)
+  const [liked, setLiked] = useState(false)
 
   const productClicked = (e :{ nativeEvent: {path: any[]}} ) => {
     const clicked = e.nativeEvent.path
@@ -15,7 +16,8 @@ const Product = ({ onClick } : { onClick?: () => void }) => {
   }
 
   const likeButtonClicked = () => {
-    setSmallModelText('Product added successfully to your wishlist!');
+    setSmallModelText(`Product ${liked ? "removed" : "added"} successfully ${liked ? "from" : "to"} your wishlist!`);
+    setLiked(!liked)
     setOpen(true)
   }
 
@@ -42,7 +44,7 @@ const Product = ({ onClick } : { onClick?: () => void }) => {
       onClick={likeButtonClicked}
       className='absolute top-4 right-4 text-2xl text-purplePrimary'
       title='Like | Unlike product'>
-        <AiOutlineHeart/>
+        {liked ? <AiFillHeart /> : <AiOutlineHeart/>}
       </button>
       <div className="image-wrapper">
         <img src="https://assets.adidas.com/images/h_840,f_auto,q_auto,fl_lossy,c_fill,g_auto/0a98a6e522934d3f964ead2400b45f9f_9366/Adicolor_Essentials_Trefoil_Hoodie_Beige_HE7198_21_model.jpg" alt="Product" />
