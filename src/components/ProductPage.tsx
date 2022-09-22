@@ -1,4 +1,6 @@
 import { useState } from 'react'
+import { Link } from 'react-router-dom';
+import { COLORS } from '../config/config';
 import useWindowSize from '../hooks/useWindowSize';
 import { AiFillStar, IoIosArrowDown, IoIosArrowUp } from '../Icons'
 import ActionsProductPage from './ActionsProductPage';
@@ -10,7 +12,7 @@ import Sizes from './Sizes';
 
 const ProductPage = () => {
     const [more, setMore] = useState(false);
-    const { width } = useWindowSize()
+    const { width } = useWindowSize();
     const handleShowMore = () => setMore(!more);
 
   return (
@@ -33,7 +35,7 @@ const ProductPage = () => {
                 <p className="price font-bold ">$60</p>
             </div>}
             {/* Images should be grid in medium sizes and slider in small devices   */}
-            <div className="grid grid-cols-2 gap-[2px] relative">
+            <div className="grid grid-cols-2 gap-[2px] relative border-red-300 border">
                 {width! >= 1024 && <p className='absolute top-4 left-4 underline'>Back</p>}
                 <div className="col-span-2">
                     <img src="https://assets.adidas.com/images/h_840,f_auto,q_auto,fl_lossy,c_fill,g_auto/7d5d36a32fd24b6e8c27aeb000432b4b_9366/Stadium_Fleece_Badge_of_Sport_Hoodie_White_HU1522_21_model.jpg" alt="" />
@@ -62,6 +64,17 @@ const ProductPage = () => {
                     <img src="https://assets.adidas.com/images/h_840,f_auto,q_auto,fl_lossy,c_fill,g_auto/7d5d36a32fd24b6e8c27aeb000432b4b_9366/Stadium_Fleece_Badge_of_Sport_Hoodie_White_HU1522_21_model.jpg" alt="" />
                 </div>}
             </div>
+            <ul className='bg-white border list-none mx-auto w-[80%] mt-4 p-10 flex gap-2 justify-center items-center flex-wrap'>
+                {Object.values(COLORS).map((color, index) => (
+                    <Link key={index} to='/'>
+                        <li 
+                            className='w-[40px] h-[40px] rounded-full border'
+                            key={index} 
+                            style={{backgroundColor: color}}
+                        ></li>
+                    </Link>
+                ))}
+            </ul>
             {width! < 1024 && <div className='p-4'>
                 <Sizes />
                 <ActionsProductPage />
