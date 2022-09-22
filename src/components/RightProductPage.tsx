@@ -6,7 +6,7 @@ import Sizes from './Sizes'
 const RightProductPage = () => {
     const { width } = useWindowSize()
   return (
-    <div className="sticky top-0 h-fit p-4 pr-8 md:min-w-[300px] md:max-w-[300px] lg:min-w-[450px] lg:max-w-[450px]">
+    <div className="sticky top-0 h-fit p-4 md:min-w-[300px] md:max-w-[300px] lg:min-w-[450px] lg:max-w-[450px]">
 
             {width! >= 1024 && 
                 <>
