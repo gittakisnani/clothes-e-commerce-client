@@ -1,7 +1,7 @@
 export { RiSearchLine } from 'react-icons/ri';
 export { BsCommand, BsCheckLg, BsCheckAll, BsFacebook, BsTwitter } from 'react-icons/bs';
 export { MdLanguage, MdSort, MdOutlineClose, MdOutlineLocalShipping, MdAddCircleOutline } from 'react-icons/md';
-export { AiOutlineHeart, AiFillHeart, AiOutlineRight, AiFillStar, AiOutlineMenu, AiOutlineFilter, AiOutlineGithub } from 'react-icons/ai';
+export { AiOutlineHeart, AiFillHeart, AiOutlineRight, AiFillStar, AiOutlineMenu, AiOutlineFilter, AiOutlineGithub, AiFillInfoCircle } from 'react-icons/ai';
 export { TbShoppingCart } from 'react-icons/tb'
 export { HiOutlineHome } from 'react-icons/hi'
 export { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io'
