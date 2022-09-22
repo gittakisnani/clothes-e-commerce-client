@@ -1,7 +1,12 @@
+import { useEffect } from 'react'
 import { BsTwitter, AiOutlineGithub, BsFacebook } from '../Icons'
+import { handleMetaTags, setPageTitle } from '../utils/pageUtils'
 import { OAuthHoverClass } from './RegistrationPage'
 const LoginPage = () => {
-
+    useEffect(() => {
+        setPageTitle('Login Page')
+        handleMetaTags('Login page of takiSnani website', 'With this page sellers, users or buyers can login back to their registered accounts either with their credentials ot via OAuth with Google, Github, Twitter')
+      },[])
   return (
     <div className='min-h-screen grid place-items-center p-4 md:p-6 relative'>
         <div className='w-full max-w-[450px] bg-white'>

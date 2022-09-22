@@ -1,6 +1,7 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { CATEGORIES, COLORS, SIZES, TYPE_FILTERS } from '../config/config';
 import { IoTrashBinOutline, AiFillInfoCircle } from '../Icons'
+import { handleMetaTags, setPageTitle } from '../utils/pageUtils';
 const AddProductPage = () => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -32,6 +33,12 @@ const AddProductPage = () => {
   const handleDelete = (imgSrc: string) => {
     setSrc(src.filter(el => el !== imgSrc))
   }
+
+
+  useEffect(() => {
+    setPageTitle('New Product')
+    handleMetaTags('Add new product page', 'With this page sellers can add their products and offer them to buyers')
+  },[])
 
 
   return (

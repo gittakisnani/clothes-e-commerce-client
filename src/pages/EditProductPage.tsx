@@ -1,6 +1,7 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { CATEGORIES, COLORS, SIZES, TYPE_FILTERS } from '../config/config';
 import { IoTrashBinOutline, AiFillInfoCircle } from '../Icons'
+import { handleMetaTags, setPageTitle } from '../utils/pageUtils';
 const EditProductPage = () => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -32,6 +33,11 @@ const EditProductPage = () => {
   const handleDelete = (imgSrc: string) => {
     setSrc(src.filter(el => el !== imgSrc))
   }
+
+  useEffect(() => {
+    setPageTitle('Edit Product')
+    handleMetaTags('Edit posted product page', 'With this page sellers can Edit their products and reoffer them again to buyers')
+  },[])
 
 
   return (

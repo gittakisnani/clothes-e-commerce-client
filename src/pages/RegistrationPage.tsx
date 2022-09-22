@@ -1,4 +1,6 @@
+import { useEffect } from 'react'
 import { BsTwitter, AiOutlineGithub, BsFacebook } from '../Icons'
+import { handleMetaTags, setPageTitle } from '../utils/pageUtils'
 
 const IMAGE = 'https://brand.assets.adidas.com/image/upload/f_auto,q_auto,fl_lossy/enUS/Images/SEO_Forum-Size-Guide_Mastead_Teaser-Carousel_tcm221-919208.jpg'
 
@@ -7,6 +9,13 @@ export const OAuthHoverClass = 'hover:text-purplePrimary hover:border-purplePrim
 
 
 const RegistrationPage = () => {
+
+  useEffect(() => {
+    setPageTitle('Register')
+    handleMetaTags('Registration page of takiSnani website', 'With this page sellers, users or buyers can register in this website with their new secure accounts or via OAuth using GitHub, Google or Twitter and start browsing and selling products')
+  },[])
+
+  
   return (
     <div className='flex min-h-screen'>
      <div className='p-6 md:p-10 w-full md:w-fit flex flex-col '>

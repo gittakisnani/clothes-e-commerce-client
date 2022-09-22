@@ -1,8 +1,9 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom';
 import { COLORS } from '../config/config';
 import useWindowSize from '../hooks/useWindowSize';
 import { AiFillStar, IoIosArrowDown, IoIosArrowUp } from '../Icons'
+import { handleMetaTags, setPageTitle } from '../utils/pageUtils';
 import ActionsProductPage from './ActionsProductPage';
 import Product from './Product';
 import ProductInfo from './ProductInfo';
@@ -14,6 +15,11 @@ const ProductPage = () => {
     const [more, setMore] = useState(false);
     const { width } = useWindowSize();
     const handleShowMore = () => setMore(!more);
+
+    useEffect(() => {
+        setPageTitle('Product Page')
+        handleMetaTags('Products page', 'With this page, users can see product details like: price, features, types, sizes...')
+      },[])
 
   return (
     <div className='flex flex-1'>
