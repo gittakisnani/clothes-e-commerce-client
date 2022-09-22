@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 import { BsTwitter, AiOutlineGithub, BsFacebook } from '../Icons'
 import { handleMetaTags, setPageTitle } from '../utils/pageUtils'
 import { OAuthHoverClass } from './RegistrationPage'
+import { Link } from 'react-router-dom'
 const LoginPage = () => {
     useEffect(() => {
         setPageTitle('Login Page')
@@ -14,7 +15,7 @@ const LoginPage = () => {
                 <p className="text-2xl pb-4">Taki<span className="font-bold">Snani</span></p>
                 <div>
                     <h1 className=''>Login to your account</h1>
-                    <p className='pb-2'>Don't have account yet? <a href="#" className='font-semibold text-purplePrimary'>Register</a></p>
+                    <div className='pb-2 flex gap-2 items-center'>Don't have account yet? <Link to='/register'><p className='font-bold text-purplePrimary'>Register</p></Link></div>
                 </div>
                 <label className='flex flex-col gap-1' htmlFor="email">
                     Email address
@@ -39,7 +40,7 @@ const LoginPage = () => {
                     />
                     Remember me
                     </label>
-                    <a href="#" className='text-purplePrimary font-semibold'>Forgot your password?</a>
+                    <Link to='/forgotpassword' className='text-purplePrimary font-bold '>Forgot your password?</Link>
                 </div>
 
                 <button className='font-bold w-full rounded-md p-2 text-white bg-purplePrimary'>Login</button>

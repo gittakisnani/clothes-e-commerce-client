@@ -1,4 +1,5 @@
 import { useEffect } from 'react'
+import { Link } from 'react-router-dom'
 import { BsTwitter, AiOutlineGithub, BsFacebook } from '../Icons'
 import { handleMetaTags, setPageTitle } from '../utils/pageUtils'
 
@@ -22,7 +23,7 @@ const RegistrationPage = () => {
         <p className="text-2xl pb-4">Taki<span className="font-bold">Snani</span></p>
         <div className='flex-1 flex flex-col justify-center'>
         <h1 className=''>Create new account</h1>
-        <p className='pb-6'>Already have an account? <a href='#' className='font-semibold text-purplePrimary'>Login</a></p>
+        <p className='pb-6'>Already have an account? <Link to='/login' className='font-bold text-purplePrimary'>Login</Link></p>
 
         <p className='font-semibold opacity-80'>Register with</p>
         <div className='grid grid-cols-3 gap-2 mt-2'>

@@ -7,6 +7,9 @@ import Layout from "./components/Layout";
 import HeaderLayout from "./components/HeaderLayout";
 import AddProductPage from "./pages/AddProductPage";
 import EditProductPage from "./pages/EditProductPage";
+import ForgotPassword from "./pages/ForgotPassword";
+import ResetCode from "./pages/ResetCode";
+import NewPassword from "./pages/ReCreatePassword";
 function App() {
   return (
     <Routes>
@@ -14,6 +17,9 @@ function App() {
         {/* Public Routes */}
         <Route path="login" element={<LoginPage />} /> 
         <Route path="register" element={<RegistrationPage />} />
+        <Route path="forgotpassword" element={<ForgotPassword />} />
+        <Route path="resetcode" element={<ResetCode />} />
+        <Route path="newpassword" element={<NewPassword />} />
         <Route path="" element={<HeaderLayout />}>
           <Route index element={<Content />} />
           <Route path="product/:id" element={<ProductPage />} />

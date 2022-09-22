@@ -2,9 +2,9 @@ import { Outlet } from 'react-router-dom';
 
 const Layout = () => {
   return (
-    <div className="w-full max-w-[1400px] mx-auto relative">
+    <main className="w-full max-w-[1400px] mx-auto relative bg-white">
       <Outlet />
-    </div>
+    </main>
   )
 }
 
