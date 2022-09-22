@@ -1,6 +1,6 @@
 import { useState, useRef } from 'react'
 import { CATEGORIES, COLORS, SIZES, TYPE_FILTERS } from '../config/config';
-import { IoTrashBinOutline } from '../Icons'
+import { IoTrashBinOutline, AiFillInfoCircle } from '../Icons'
 const AddProductPage = () => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -37,9 +37,13 @@ const AddProductPage = () => {
   return (
     <div className='flex-1 p-4 md:p-6'>
         <h2 className=''>Post New Product</h2>
+        <h4 className='flex bg-red-300 text-red-600 gap-2 items-center font-semibold p-2 my-2 text-lg'>
+            <span className='text-xl'><AiFillInfoCircle /></span>
+            <p>An error ocurred</p>
+        </h4>
         <form className="flex flex-col gap-2">
            <label className="flex-col flex gap-2" htmlFor="title">
-              Title:
+              <p className='text-lg font-semibold'>Title:</p>
               <input 
                 id='title'
                 title="Product title"
@@ -48,9 +52,10 @@ const AddProductPage = () => {
                 onChange={e => setTitle(e.target.value)}
                 className='p-2'
             />
+            <p className='text-gray-600 font-semibold'>You Title Should match the product you're offering.</p>
            </label>
            <label className="flex-col flex gap-2" htmlFor="desc">
-              Description:
+           <p className='text-lg font-semibold'>Description:</p>
               <textarea 
                 id='desc'
                 title="Product Description"
@@ -58,9 +63,10 @@ const AddProductPage = () => {
                 onChange={e => setDescription(e.target.value)}
                 className='p-2 !min-h-[150px]'
             />
+            <p className='text-gray-600 font-semibold'>You Description Should Describe the product you're offering or we will reject your offer.</p>
            </label>
             <div className='flex-col gap-2 flex'>
-              <p>Colors:</p>
+            <p className='text-lg font-semibold'>Colors:</p>
               <div className='flex gap-2 items-center flex-wrap'>
                 {Object.entries(COLORS).map(([color, hex], index) => (
                  <label key={index} className='flex-col flex gap-2 items-center' htmlFor={hex}>
@@ -80,7 +86,7 @@ const AddProductPage = () => {
             </div>
             <div className='grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3'>
             <div className='flex flex-col gap-2'>
-              <p>Type:</p>
+            <p className='text-lg font-semibold'>Type:</p>
               <div className='flex flex-col gap-1'>
                 {TYPE_FILTERS.map((type, index) => (
                   <label className='flex gap-2 items-center' key={index} htmlFor={type.replaceAll(' ', '')}>
@@ -96,7 +102,7 @@ const AddProductPage = () => {
               </div>
             </div>
             <div className='flex flex-col gap-2'>
-              <p>Category:</p>
+            <p className='text-lg font-semibold'>Category:</p>
               <div className='flex flex-col gap-1'>
                 {CATEGORIES.map((category, index) => (
                   <label className='flex gap-2 items-center' key={index} htmlFor={category.replaceAll(' ', '')}>
@@ -112,7 +118,7 @@ const AddProductPage = () => {
               </div>
             </div>
             <div className='flex flex-col gap-2'>
-              <p>Sizes available:</p>
+            <p className='text-lg font-semibold'>Sizes available:</p>
               <div className='flex flex-col gap-1'>
                 {SIZES.map((size, index) => (
                   <label className='flex gap-2 items-center' key={index} htmlFor={size.replaceAll(' ', '')}>
@@ -128,7 +134,7 @@ const AddProductPage = () => {
               </div>
             </div>
             <div className='flex flex-col gap-2'>
-              <p>Gender:</p>
+            <p className='text-lg font-semibold'>Gender:</p>
               <div className='flex flex-col gap-1'>
                 {['Woman', 'Man', 'Unisex'].map((gender, index) => (
                   <label className='flex gap-2 items-center' key={index} htmlFor={gender.replaceAll(' ', '')}>
@@ -146,7 +152,7 @@ const AddProductPage = () => {
             </div>
 
               <label htmlFor="price" className='flex flex-col gap-2'>
-                Price:
+              <p className='text-lg font-semibold'>Price: ($)</p>
                 <input 
                 type="number" 
                 value={price}
@@ -156,7 +162,7 @@ const AddProductPage = () => {
                 />
               </label>
               <label htmlFor="files" className='flex flex-col gap-2 relative'>
-                Images:
+                <p className='text-lg font-semibold'>Images: <span className='text-gray-500 text-base'>03 Pictures minimum</span></p>
                 <input 
                 ref={fileRef}
                 multiple
