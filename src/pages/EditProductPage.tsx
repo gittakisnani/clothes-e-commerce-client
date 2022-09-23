@@ -168,7 +168,8 @@ const EditProductPage = () => {
                 />
               </label>
               <label htmlFor="files" className='flex flex-col gap-2 relative'>
-                <p className='text-lg font-semibold'>Images: <span className='text-gray-500 text-base'>03 Pictures minimum</span></p>
+                <p className='text-lg font-semibold'>
+                  Images: <span className='text-gray-500 text-base'>03 Pictures minimum</span></p>
                 <input 
                 ref={fileRef}
                 multiple
@@ -177,11 +178,11 @@ const EditProductPage = () => {
                 id='files'
                 type="file" 
                 title='Images'
-                className='file:p-2 file:bg-purplePrimary w-fit file:text-white file:border-none file:cursor-pointer file:rounded-md opacity-0'
+                className='file:p-2 file:bg-purplePrimary w-fit file:text-white file:border-none file:cursor-pointer file:rounded-md opacity-0 z-10'
                 />
                 <button 
                 type='button'
-                className='p-2 bg-purplePrimary text-white border-none font-semibold rounded-md w-fit absolute top-8 z-[-1]'
+                className='p-2 bg-purplePrimary text-white border-none font-semibold rounded-md w-fit absolute top-8'
                 >   
                     Add Pictures
                 </button>
