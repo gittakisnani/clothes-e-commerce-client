@@ -36,7 +36,7 @@ const AddProductPage = () => {
 
 
   useEffect(() => {
-    setPageTitle('New Product')
+    setPageTitle('New Product Page')
     handleMetaTags('Add new product page', 'With this page sellers can add their products and offer them to buyers')
   },[])
 
