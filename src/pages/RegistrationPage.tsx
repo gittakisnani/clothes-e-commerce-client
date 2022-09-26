@@ -18,7 +18,7 @@ const RegistrationPage = () => {
 
   
   return (
-    <div className='flex min-h-screen'>
+    <section className='flex min-h-screen'>
      <div className='p-6 md:p-10 w-full md:w-fit flex flex-col '>
         <p className="text-2xl pb-4">Taki<span className="font-bold">Snani</span></p>
         <div className='flex-1 flex flex-col justify-center'>
@@ -74,7 +74,7 @@ const RegistrationPage = () => {
      <div className='hidden md:block flex-1 min-h-screen max-h-full relative overflow-hidden bg-purplePrimary/20'>
       <img alt='Registration Cover' className='absolute inset-0 h-full z-[-1]' src={IMAGE} />
      </div>
-    </div>
+    </section>
   )
 }
 

@@ -23,7 +23,7 @@ const NewPassword = () => {
 
 
   return (
-    <div className='h-screen p-4 md:p-6 bg-white'>
+    <section className='h-screen p-4 md:p-6 bg-white'>
         <header className="p-2 flex items-center justify-center">
           <Link to='/'><p className="text-2xl">Taki<span className="font-bold">Snani</span></p></Link>
         </header>
@@ -56,7 +56,7 @@ const NewPassword = () => {
             disabled={!canSave}
             >Save new password</button>
         </form>
-    </div>
+    </section>
   )
 }
 

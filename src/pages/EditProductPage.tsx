@@ -41,7 +41,7 @@ const EditProductPage = () => {
 
 
   return (
-    <div className='flex-1 p-4 md:p-6'>
+    <section className='flex-1 p-4 md:p-6'>
         <h2 className=''>Edit Product</h2>
         <h4 className='flex bg-red-300 text-red-600 gap-2 items-center font-semibold p-2 my-2 text-lg'>
             <span className='text-xl'><AiFillInfoCircle /></span>
@@ -216,7 +216,7 @@ const EditProductPage = () => {
                 </button>
             </div>
         </form>
-    </div>
+    </section>
   )
 }
 

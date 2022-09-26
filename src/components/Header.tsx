@@ -5,6 +5,7 @@ import Logo from "./Logo";
 import UserMenu from "./UserMenu";
 import useWindowSize from "../hooks/useWindowSize";
 import SearchBar from "./SearchBar";
+import Container from "./Conteiner";
 
 type HeaderProps = {
     setFilters: (value: boolean) => void
@@ -33,7 +34,8 @@ const Header = ({ setFilters } : HeaderProps) => {
         setFilters(false)
     }
   return (
-    <header className="flex items-center border-b border-primaryLight relative px-2">
+    <header>
+        <Container className="flex items-center border-b border-primaryLight relative px-2">
             {(width! >=  1024 || !searchBar) && <Logo />}
             <div className="p-4 md:p-6 flex items-center gap-6 flex-1 w-fit">
                 <div className="flex-1 flex gap-2">
@@ -77,6 +79,7 @@ const Header = ({ setFilters } : HeaderProps) => {
                     {userMenu && <UserMenu />}
                 </div>}
             </div>
+        </Container>
     </header>
   )
 }

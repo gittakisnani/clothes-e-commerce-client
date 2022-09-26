@@ -20,7 +20,7 @@ const ResetCode = () => {
     handleMetaTags('Reset code', 'We have sent you a reset code')
   },[])
   return (
-    <div className='h-screen p-4 md:p-6 bg-white'>
+    <section className='h-screen p-4 md:p-6 bg-white'>
         <header className="p-2 flex items-center justify-center">
           <Link to='/'><p className="text-2xl">Taki<span className="font-bold">Snani</span></p></Link>
         </header>
@@ -44,7 +44,7 @@ const ResetCode = () => {
             disabled={!canReset}
             >Create new password</button>
         </form>
-    </div>
+    </section>
   )
 }
 

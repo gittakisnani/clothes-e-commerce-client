@@ -22,7 +22,7 @@ const Content = () => {
 
 
   return (
-      <div className='p-4 md:p-6 flex-1'>
+      <section className='p-4 md:p-6 flex-1'>
           {modal && <Modal setModal={setModal}>
               <button 
               onClick={() => {
@@ -113,7 +113,7 @@ const Content = () => {
             window.history.replaceState(null, '', '/product/2')
           }} />
         </div>
-      </div>
+      </section>
   )
 }
 

@@ -10,7 +10,7 @@ import PriceFilter from './PriceFilter';
 const FilterBar = ({ setFilters } : { setFilters?: (value: boolean) => void}) => {
     const { width } = useWindowSize()
   return (
-    <div className='fixed left-0 top-0 bottom-0 border-r z-40 w-[208px] overflow-y-auto lg:overscroll-y-none bg-white lg:relative lg:flex flex-col'>
+    <aside className='fixed left-0 top-0 bottom-0 border-r z-40 w-[208px] overflow-y-auto lg:overscroll-y-none bg-white lg:relative lg:flex flex-col'>
         {width! < 1024 && <>
             <Logo />
         <button onClick={() => setFilters!(false)} className='absolute top-5 text-xl right-2' title='close'>
@@ -50,7 +50,7 @@ const FilterBar = ({ setFilters } : { setFilters?: (value: boolean) => void}) =>
             </div>
         </div>
     </div>
-    </div>
+    </aside>
   )
 }
 

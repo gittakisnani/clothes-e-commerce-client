@@ -22,7 +22,7 @@ const ProductPage = () => {
       },[])
 
   return (
-    <div className='flex flex-1'>
+    <section className='flex flex-1'>
         {/* Left */}
         <div className="image-desc flex-grow lg:border-r">
             {width! < 1024 && <div className='p-4'>
@@ -108,7 +108,7 @@ const ProductPage = () => {
         </div>
         {/* Right */}
        {width! >= 1024 &&  <RightProductPage />}
-    </div>
+    </section>
   )
 }
 
