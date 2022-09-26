@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react'
 import useWindowSize from '../hooks/useWindowSize';
 import Header from './Header';
 import FilterBar from './FilterBar';
+import Container from './Conteiner';
 
 const HeaderLayout = () => {
   const [filters, setFilters] = useState(false)
@@ -15,10 +16,10 @@ const HeaderLayout = () => {
   return (
     <>
     <Header setFilters={setFilters} />
-    <div className='flex'>
+    <Container className='flex'>
         {(filters || width! >= 1024 ) && <FilterBar setFilters={setFilters} />} 
         <Outlet />
-    </div>
+    </Container>
     </>
   )
 }
