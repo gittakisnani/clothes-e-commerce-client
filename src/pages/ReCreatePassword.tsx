@@ -1,5 +1,6 @@
-import { SyntheticEvent, useState } from "react"
+import { SyntheticEvent, useEffect, useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
+import { handleMetaTags, setPageTitle } from "../utils/pageUtils"
 
 const NewPassword = () => {
   const [pwd, setPwd] = useState('')
@@ -14,6 +15,11 @@ const NewPassword = () => {
 
     // DB stuff
   }
+
+  useEffect(() => {
+    setPageTitle('New Password')
+    handleMetaTags('create new password', 'Create new password')
+},[])
 
 
   return (

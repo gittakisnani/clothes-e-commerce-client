@@ -1,9 +1,12 @@
 import { Outlet } from 'react-router-dom';
+import Container from './Conteiner';
 
 const Layout = () => {
   return (
-    <main className="w-full max-w-[1400px] mx-auto relative bg-white">
-      <Outlet />
+    <main className="bg-white">
+      <Container className='relative'>
+        <Outlet />
+      </Container>
     </main>
   )
 }

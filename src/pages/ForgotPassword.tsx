@@ -1,5 +1,6 @@
-import { SyntheticEvent, useState } from "react"
+import { SyntheticEvent, useEffect, useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
+import { handleMetaTags, setPageTitle } from "../utils/pageUtils"
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState('')
@@ -13,6 +14,11 @@ const ForgotPassword = () => {
 
     // DB stuff
   }
+
+  useEffect(() => {
+    setPageTitle('Forgot password')
+    handleMetaTags('Forgot password', 'With this page you can start resetting your password or create new password')
+  },[])
   return (
     <div className='h-screen p-4 md:p-6 bg-white'>
         <header className="p-2 flex items-center justify-center">

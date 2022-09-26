@@ -1,5 +1,6 @@
-import { SyntheticEvent, useState } from "react"
+import { SyntheticEvent, useEffect, useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
+import { handleMetaTags, setPageTitle } from "../utils/pageUtils"
 
 const ResetCode = () => {
   const [code, setCode] = useState('')
@@ -13,6 +14,11 @@ const ResetCode = () => {
 
     // DB stuff
   }
+
+  useEffect(() => {
+    setPageTitle('Reset code')
+    handleMetaTags('Reset code', 'We have sent you a reset code')
+  },[])
   return (
     <div className='h-screen p-4 md:p-6 bg-white'>
         <header className="p-2 flex items-center justify-center">

@@ -10,6 +10,7 @@ import EditProductPage from "./pages/EditProductPage";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetCode from "./pages/ResetCode";
 import NewPassword from "./pages/ReCreatePassword";
+import NotFound from "./pages/NotFound";
 function App() {
   return (
     <Routes>
@@ -27,7 +28,8 @@ function App() {
           <Route path="product/edit" element={<EditProductPage />} />
         </Route>
       </Route>
-      <Route path="*" element={<Navigate to='/' replace />} />
+      {/* 404 Page */}
+      <Route path="*" element={<NotFound />} />
   </Routes>
   );
 }
