@@ -23,7 +23,7 @@ function App() {
         <Route path="newpassword" element={<NewPassword />} />
         <Route path="" element={<HeaderLayout />}>
           <Route index element={<Content />} />
-          <Route path="product/:id" element={<ProductPage />} />
+          <Route path="product/:id" element={<ProductPage back />} />
           <Route path="product/new" element={<AddProductPage />} />
           <Route path="product/edit" element={<EditProductPage />} />
         </Route>

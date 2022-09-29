@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { COLORS } from '../config/config';
 import useWindowSize from '../hooks/useWindowSize';
 import { AiFillStar, IoIosArrowDown, IoIosArrowUp } from '../Icons'
@@ -11,24 +11,28 @@ import ProductServiceFeatures from './ProductServiceFeatures';
 import RightProductPage from './RightProductPage';
 import Sizes from './Sizes';
 
-const ProductPage = () => {
+const ProductPage = ({ back = false} : { back?: boolean}) => {
     const [more, setMore] = useState(false);
     const { width } = useWindowSize();
     const handleShowMore = () => setMore(!more);
+    const navigate = useNavigate()
+
+    const handleBack = () => navigate(-1)
 
     useEffect(() => {
         setPageTitle('Product Page')
         handleMetaTags('Products page', 'With this page, users can see product details like: price, features, types, sizes...')
-      },[])
+    },[])
+
 
   return (
-    <section className='flex flex-1'>
+    <section className='flex flex-1 w-full'>
         {/* Left */}
         <div className="image-desc flex-grow lg:border-r">
             {width! < 1024 && <div className='p-4'>
                 <div className='flex justify-between mr-2'>
-                    <p className='underline'>Back</p>
-                    <div className='flex text-xs items-center'>
+                    {back && <p onClick={handleBack} className='underline uppercase font-semibold cursor-pointer'>Back</p>}
+                    <div className='flex items-center flex-1 justify-end'>
                     <AiFillStar />
                     <AiFillStar />
                     <AiFillStar />
@@ -41,8 +45,8 @@ const ProductPage = () => {
                 <p className="price font-bold ">$60</p>
             </div>}
             {/* Images should be grid in medium sizes and slider in small devices   */}
-            <div className="grid grid-cols-2 gap-[2px] relative border-red-300 border">
-                {width! >= 1024 && <p className='absolute top-4 left-4 underline'>Back</p>}
+            <div className="grid grid-cols-2 gap-[2px] relative">
+                {width! >= 1024 && <p onClick={handleBack} className='absolute top-4 left-4 underline uppercase font-semibold cursor-pointer'>Back</p>}
                 <div className="col-span-2">
                     <img src="https://assets.adidas.com/images/h_840,f_auto,q_auto,fl_lossy,c_fill,g_auto/7d5d36a32fd24b6e8c27aeb000432b4b_9366/Stadium_Fleece_Badge_of_Sport_Hoodie_White_HU1522_21_model.jpg" alt="" />
                 </div>
