@@ -76,7 +76,7 @@ const Header = ({ setFilters } : HeaderProps) => {
                         className="border border-primaryLight rounded-full h-10 w-10 text-xl grid place-items-center">
                         <FaUser />
                         </div>
-                    {userMenu && <UserMenu />}
+                    {userMenu && <UserMenu setUserMenu={setUserMenu} />}
                 </div>}
             </div>
         </Container>
