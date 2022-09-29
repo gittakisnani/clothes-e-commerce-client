@@ -165,6 +165,7 @@ const EditProductPage = () => {
                 onChange={e => setPrice(Number(e.target.value))}
                 title='Price'
                 className='max-w-[200px] p-2 rounded-md'
+                id='price'
                 />
               </label>
               <label htmlFor="files" className='flex flex-col gap-2 relative'>
