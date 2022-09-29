@@ -74,7 +74,7 @@ const ProductPage = ({ back = false} : { back?: boolean}) => {
                     <img src="https://assets.adidas.com/images/h_840,f_auto,q_auto,fl_lossy,c_fill,g_auto/7d5d36a32fd24b6e8c27aeb000432b4b_9366/Stadium_Fleece_Badge_of_Sport_Hoodie_White_HU1522_21_model.jpg" alt="" />
                 </div>}
             </div>
-            <ul className='bg-white border list-none mx-auto w-[80%] mt-4 p-10 flex gap-2 justify-center items-center flex-wrap'>
+            <ul className='bg-white border list-none mx-auto w-full md:w-[80%] mt-10 p-10 flex gap-2 justify-center items-center flex-wrap sticky bottom-2 z-10'>
                 {Object.values(COLORS).map((color, index) => (
                     <Link key={index} to='/'>
                         <li 
