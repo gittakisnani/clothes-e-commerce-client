@@ -26,12 +26,14 @@ const ActionsProductPage = () => {
                     <p>{smallModelText}</p>
                 </div>
             </SmallModal>
-        <button     
-            onClick={addToCartClicked}
-            className='flex-1 bg-purplePrimary text-white flex justify-between items-center gap-2 p-3 relative after:absolute after:w-full after:h-full after:border after:border-purplePrimary after:top-1 after:left-1  after:content-[""] active:after:-translate-x-1 active:after:-translate-y-1'>
-            <p>Add to bag</p>
-            <span className='text-xl'><TbShoppingCart /></span>
-        </button>
+        <div className='flex-1 border border-purplePrimary'>
+            <button     
+                onClick={addToCartClicked}
+                className='flex-1 bg-purplePrimary text-white flex justify-between items-center gap-2 p-3 w-full -translate-x-1 -translate-y-1 active:translate-x-0 active:translate-y-0'>
+                <p>Add to bag</p>
+                <span className='text-xl'><TbShoppingCart /></span>
+            </button>
+        </div>
         <button 
             onClick={likeButtonClicked}
             className='border border-primaryLight p-3 self-stretch text-xl'>
