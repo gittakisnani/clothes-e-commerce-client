@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import useWindowSize from '../hooks/useWindowSize'
-import { AiOutlineHeart, TbShoppingCart, GrLanguage, FiLogOut, MdAddCircleOutline} from '../Icons'
+import { AiOutlineHeart, TbShoppingCart, GrLanguage, FiLogOut, MdAddCircleOutline, FiSettings } from '../Icons'
 const UserMenu = ({ setUserMenu }: { setUserMenu: (value: boolean) => void}) => {
     const { width } = useWindowSize()
   return (
@@ -25,6 +25,12 @@ const UserMenu = ({ setUserMenu }: { setUserMenu: (value: boolean) => void}) => 
             <div onClick={() => setUserMenu(false)} className='duration-200 hover:bg-secondaryLight ease-linear flex items-center gap-2 p-2 cursor-pointer'>
                 <span><MdAddCircleOutline /></span>
                 <p>Post New Product</p>
+            </div>
+        </Link>
+        <Link to='/settings'>
+            <div onClick={() => setUserMenu(false)} className='duration-200 hover:bg-secondaryLight ease-linear flex items-center gap-2 p-2 cursor-pointer'>
+                <span><FiSettings /></span>
+                <p>Settings</p>
             </div>
         </Link>
         <div onClick={() => setUserMenu(false)} className='duration-200 hover:bg-secondaryLight ease-linear flex items-center gap-2 p-2 cursor-pointer'>

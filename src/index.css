@@ -36,6 +36,16 @@
   }
 }
 
+@layer components {
+  .set_input {
+    @apply p-2 border border-gray-400 duration-200 ease-out hover:border-purplePrimary
+  }
+
+  .set_label {
+    @apply w-full flex flex-col gap-2
+  }
+}
+
 html,
 body {
   margin: 0;

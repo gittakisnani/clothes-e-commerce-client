@@ -11,6 +11,7 @@ import ForgotPassword from "./pages/ForgotPassword";
 import ResetCode from "./pages/ResetCode";
 import NewPassword from "./pages/ReCreatePassword";
 import NotFound from "./pages/NotFound";
+import Settings from "./pages/Settings";
 function App() {
   return (
     <Routes>
@@ -21,7 +22,8 @@ function App() {
         <Route path="forgotpassword" element={<ForgotPassword />} />
         <Route path="resetcode" element={<ResetCode />} />
         <Route path="newpassword" element={<NewPassword />} />
-        <Route path="" element={<HeaderLayout />}>
+        <Route path="settings" element={<Settings />} />
+        <Route element={<HeaderLayout />}>
           <Route index element={<Content />} />
           <Route path="product/:id" element={<ProductPage back />} />
           <Route path="product/new" element={<AddProductPage />} />

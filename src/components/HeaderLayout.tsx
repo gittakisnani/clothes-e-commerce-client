@@ -16,10 +16,10 @@ const HeaderLayout = () => {
   return (
     <>
     <Header setFilters={setFilters} />
-    <Container className='flex'>
+    <div className='flex'>
         {(filters || width! >= 1024 ) && <FilterBar setFilters={setFilters} />} 
         <Outlet />
-    </Container>
+    </div>
     </>
   )
 }
