@@ -2,6 +2,7 @@ import { COUNTRIES, LANGUAGES } from "../config/config"
 import { useState, useEffect } from 'react'
 import { Link, useNavigate } from "react-router-dom"
 import { HiOutlineHome} from '../Icons'
+import { handleMetaTags, setPageTitle } from "../utils/pageUtils"
 /*
 Settings Have:
 Username
@@ -19,6 +20,11 @@ const Settings = () => {
     const countryCode = COUNTRIES.find(cn => Object.values(cn)[0].name === country)!
     setPhone(`+${Object.values(countryCode)[0].code}`)
   }, [country])
+
+  useEffect(() => {
+    setPageTitle('Settings')
+    handleMetaTags('Settings, user settings', 'With this page sellers, users or buyers can change their profile settings like first and last names username, email, bio....')
+  },[])
 
   const handleReset = () => {
     alert('All changes won\'t be saved')
