@@ -1,5 +1,7 @@
-import { COUNTRIES } from "../config/config"
+import { COUNTRIES, LANGUAGES } from "../config/config"
 import { useState, useEffect } from 'react'
+import { Link, useNavigate } from "react-router-dom"
+import { HiOutlineHome} from '../Icons'
 /*
 Settings Have:
 Username
@@ -9,19 +11,39 @@ Email
 Show Products
 */
 const Settings = () => {
-  const [country, setCountry] = useState<string>()
-  const [phone, setPhone] = useState<string>()
+  const [country, setCountry] = useState<string>('UNITED STATES')
+  const [phone, setPhone] = useState<string>('1')
+  const navigate = useNavigate()
 
   useEffect(() => {
     const countryCode = COUNTRIES.find(cn => Object.values(cn)[0].name === country)!
     setPhone(`+${Object.values(countryCode)[0].code}`)
   }, [country])
+
+  const handleReset = () => {
+    alert('All changes won\'t be saved')
+  }
+
+  const handleSubmit = (e: React.SyntheticEvent) => {
+    e.preventDefault()
+    //Add modal
+    //DB Stuff
+  }
+
+  const handleNavigate = () => {
+    alert('Changes won\'t be saved')
+    navigate('/')
+  }
+
   return (
     <>
-    <div className="header p-8 flex items-center justify-center font-semibold text-xl border-b">Settings</div>
+    <div className="header p-8 flex items-center justify-between font-semibold text-xl border-b">
+      <h3>Settings</h3>
+      <p onClick={handleNavigate} className="text-lg flex gap-2 items-center cursor-pointer"><HiOutlineHome />Home</p>
+    </div>
     <section className=''>
       <div className="max-w-[800px] mx-auto p-4">
-        <form className="flex flex-col gap-2">
+        <form onReset={handleReset} onSubmit={handleSubmit}  className="flex flex-col gap-2">
           <div className="profile_settings">
             <h3 className="font-bold">Profile</h3>
             <p className="text-gray-600 font-semibold">This information will be displayed publicly so be careful what you share!</p>
@@ -93,11 +115,11 @@ const Settings = () => {
             </label>
             <label htmlFor="country" className="set_label">
               Country:
-              <select 
+              <select
               id="country"
               value={country}
               onChange={e => setCountry(e.target.value)}
-              className="border border-gray-400 p-1 rounded-md">
+              className="border border-gray-400 p-1 rounded-md outline-purplePrimary">
                 {COUNTRIES.map((cn, index) => (
                   <option className="flex gap-2 items-center" key={index} value={Object.values(cn)[0].name}>
                     {Object.values(cn)[0].name}
@@ -107,11 +129,14 @@ const Settings = () => {
             </label>
             <label htmlFor="lng" className="set_label">
               Language:
-              <input 
-              type="text" 
+              <select 
               id="lng" 
-              className="set_input"
-              />
+              className="border border-gray-400 p-1 rounded-md outline-purplePrimary"
+              >
+                {Object.entries(LANGUAGES).map(([key, { name }]) => (
+                  <option key={key} value={name}>{name}</option>
+                ))}
+              </select>
             </label>
           </div>
           <div className="w-full flex justify-end gap-2 items-center mt-2">
