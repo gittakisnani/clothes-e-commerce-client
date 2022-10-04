@@ -17,3 +17,10 @@ export interface SmallModalInterface {
     open: boolean 
     setOpen: (value: boolean) => void;
 }
+
+export interface LoginInput {
+    email: string
+    password: string
+}
+
+export interface RegisterInput extends LoginInput{}

@@ -1,25 +1,75 @@
-import { useEffect } from 'react'
-import { BsTwitter, AiOutlineGithub, BsFacebook } from '../Icons'
+import { useEffect, useState } from 'react'
+import { BsTwitter, AiOutlineGithub, BsFacebook, AiFillInfoCircle } from '../Icons'
 import { handleMetaTags, setPageTitle } from '../utils/pageUtils'
 import { OAuthHoverClass } from './RegistrationPage'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import { useLoginMutation, useLogoutMutation} from '../feature/authApiSlice'
 const LoginPage = () => {
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [errMsg, setErrMsg] = useState('');
+    const navigate = useNavigate()
+
+    const [login, { isLoading }] = useLoginMutation()
+
     useEffect(() => {
         setPageTitle('Login Page')
         handleMetaTags('Login page of takiSnani website', 'With this page sellers, users or buyers can login back to their registered accounts either with their credentials ot via OAuth with Google, Github, Twitter')
-      },[])
+    },[])
+
+
+    useEffect(() => {
+        setErrMsg('')
+    }, [password, email])
+
+    const handleEmailChange = (e: any) => {
+        setEmail(e.target.value as string)
+    }
+
+    const handlePasswordChange = (e: any) => {
+        setPassword(e.target.value as string)
+    }
+
+    const handleSubmit = async (e: React.SyntheticEvent) => {
+        e.preventDefault();
+        if(!email || !password) {
+            setErrMsg('All fields are required.');
+            return
+        };
+
+        if(password.length < 8) {
+            setErrMsg('Password should be at least 8 characters');
+            return;
+        }
+
+
+        try {
+            const user = await login({ password, email }).unwrap();
+            navigate('/')
+        } catch(err: any) {
+            setErrMsg(err?.data?.message ? err.data.message : 'Login failed')
+        }
+
+    } 
+
   return (
     <section className='min-h-screen grid place-items-center p-4 md:p-6 relative'>
         <div className='w-full max-w-[450px] bg-white'>
-            <form className='border rounded-md p-4 md:p-10 flex-col flex gap-4'>
+            <form onSubmit={handleSubmit} className='border rounded-md p-4 md:p-10 flex-col flex gap-4'>
                 <p className="text-2xl pb-4">Taki<span className="font-bold">Snani</span></p>
                 <div>
                     <h1 className=''>Login to your account</h1>
                     <div className='pb-2 flex gap-2 items-center'>Don't have account yet? <Link to='/register'><p className='font-bold text-purplePrimary'>Register</p></Link></div>
                 </div>
+                {errMsg && <h4 className='flex text-red-600 gap-2 items-center font-semibold text-lg'>
+                    <span className='text-xl'><AiFillInfoCircle /></span>
+                    <p>{errMsg}</p>
+                </h4>}
                 <label className='flex flex-col gap-1' htmlFor="email">
                     Email address
                     <input 
+                    value={email}
+                    onChange={handleEmailChange}
                     className='border rounded-md p-2 duration-300 ease-in-out hover:border-purplePrimary focus:border-purplePrimary active:border-purplePrimary'
                     type="email" 
                     />
@@ -27,6 +77,8 @@ const LoginPage = () => {
                 <label className='flex flex-col gap-1' htmlFor="email">
                     Password
                     <input 
+                    value={password}
+                    onChange={handlePasswordChange}
                     className='border rounded-md p-2 duration-300 ease-in-out hover:border-purplePrimary focus:border-purplePrimary active:border-purplePrimary'
                     type="password" 
                     />

@@ -1,6 +1,7 @@
-import { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { BsTwitter, AiOutlineGithub, BsFacebook } from '../Icons'
+import { useRegisterMutation } from '../feature/authApiSlice'
+import { BsTwitter, AiOutlineGithub, BsFacebook, AiFillInfoCircle } from '../Icons'
 import { handleMetaTags, setPageTitle } from '../utils/pageUtils'
 
 const IMAGE = 'https://brand.assets.adidas.com/image/upload/f_auto,q_auto,fl_lossy/enUS/Images/SEO_Forum-Size-Guide_Mastead_Teaser-Carousel_tcm221-919208.jpg'
@@ -10,11 +11,48 @@ export const OAuthHoverClass = 'hover:text-purplePrimary hover:border-purplePrim
 
 
 const RegistrationPage = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [errMsg, setErrMsg] = useState('')
+
+  const [register, { isLoading }] = useRegisterMutation()
 
   useEffect(() => {
     setPageTitle('Register')
     handleMetaTags('Registration page of takiSnani website', 'With this page sellers, users or buyers can register in this website with their new secure accounts or via OAuth using GitHub, Google or Twitter and start browsing and selling products')
   },[])
+
+  useEffect(() => {
+    setErrMsg('')
+  }, [email, password])
+
+  const handleEmailChange = (e: any) => {
+    setEmail(e.target.value as string)
+  }
+
+  const handlePasswordChange = (e: any) => {
+    setPassword(e.target.value as string)
+  }
+
+  const handleSubmit = async (e: React.SyntheticEvent) => {
+    e.preventDefault();
+
+    if(!email || !password) {
+      return setErrMsg('All fields are required')
+    }
+
+    if(password.length < 8) {
+      return setErrMsg('Password too short')
+    }
+
+    try {
+      const user = await register({ email, password}).unwrap();
+      console.log(user)
+    } catch(err: any) {
+      console.log(err)
+      setErrMsg(err?.data?.message as string || 'Login failed')
+    }
+  }
 
   
   return (
@@ -24,7 +62,10 @@ const RegistrationPage = () => {
         <div className='flex-1 flex flex-col justify-center'>
         <h1 className=''>Create new account</h1>
         <p className='pb-6'>Already have an account? <Link to='/login' className='font-bold text-purplePrimary'>Login</Link></p>
-
+        {errMsg && <h4 className='flex text-red-600 gap-2 items-center font-semibold text-lg'>
+          <span className='text-xl'><AiFillInfoCircle /></span>
+          <p>{errMsg}</p>
+        </h4>}
         <p className='font-semibold opacity-80'>Register with</p>
         <div className='grid grid-cols-3 gap-2 mt-2'>
           <button title='Register with Twitter' className={'px-4 py-2 rounded-md border border-primaryLight text-primaryLight grid place-items-center text-xl ' + OAuthHoverClass}>
@@ -40,11 +81,13 @@ const RegistrationPage = () => {
 
         <p className='uppercase text-sm mx-auto w-fit opacity-60 py-4'>Or continue with</p>
 
-        <form className='flex flex-col gap-4'>
+        <form onSubmit={handleSubmit} className='flex flex-col gap-4'>
           <label htmlFor="email" className='flex flex-col w-full'>
             Email address
             <input 
               id='email'
+              value={email}
+              onChange={handleEmailChange}
               className='w-full border rounded-md p-2 duration-300 ease-out hover:border-purplePrimary focus:border-purplePrimary'
               type="email" 
             />
@@ -55,6 +98,8 @@ const RegistrationPage = () => {
               className='w-full border rounded-md p-2 duration-300 ease-out hover:border-purplePrimary  focus:border-purplePrimary'
               type="password" 
               id='password'
+              value={password}
+              onChange={handlePasswordChange}
             />
           </label>
 
