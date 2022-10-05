@@ -65,6 +65,12 @@ const Settings = () => {
 
   const handleSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault()
+
+    //If about ? About should be 20 chars or more.
+    if(!Object.values(userInfo).every(vl => Boolean(vl))) {
+      setErrMsg('All fields are required.');
+      return;
+    }
     //Add modal
     //DB Stuff
     try {
