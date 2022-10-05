@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useRegisterMutation } from '../feature/authApiSlice'
 import { BsTwitter, AiOutlineGithub, BsFacebook, AiFillInfoCircle } from '../Icons'
 import { handleMetaTags, setPageTitle } from '../utils/pageUtils'
@@ -14,6 +14,8 @@ const RegistrationPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errMsg, setErrMsg] = useState('')
+
+  const navigate = useNavigate()
 
   const [register, { isLoading }] = useRegisterMutation()
 
@@ -47,9 +49,8 @@ const RegistrationPage = () => {
 
     try {
       const user = await register({ email, password}).unwrap();
-      console.log(user)
+      navigate('/')
     } catch(err: any) {
-      console.log(err)
       setErrMsg(err?.data?.message as string || 'Login failed')
     }
   }

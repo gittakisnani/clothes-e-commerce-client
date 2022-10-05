@@ -24,3 +24,22 @@ export interface LoginInput {
 }
 
 export interface RegisterInput extends LoginInput{}
+
+export interface UpdateUserInput {
+    firstName: string
+    lastName: string
+    about: string
+    url: string
+    phone: string
+    country: string
+    lang: string
+    email: string
+    password: string,
+    username: string
+}
+
+export interface UpdateUserParams {
+    userId: string
+}
+
+export interface UserInfo extends UpdateUserInput {}
