@@ -12,6 +12,7 @@ import ResetCode from "./pages/ResetCode";
 import NewPassword from "./pages/ReCreatePassword";
 import NotFound from "./pages/NotFound";
 import Settings from "./pages/Settings";
+
 function App() {
   return (
     <Routes>

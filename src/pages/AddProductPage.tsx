@@ -1,37 +1,70 @@
 import { useState, useRef, useEffect } from 'react'
 import { CATEGORIES, COLORS, SIZES, TYPE_FILTERS } from '../config/config';
 import { IoTrashBinOutline, AiFillInfoCircle } from '../Icons'
+import { Product } from '../types/types';
 import { handleMetaTags, setPageTitle } from '../utils/pageUtils';
+
+export type Arrays = 'colors' | 'images' | 'sizes' | 'types' | 'cats' 
+
 const AddProductPage = () => {
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [color, setColor] = useState<string[]>([])
-  const [type, setType] = useState<string[]>([])
-  const [size, setSize] = useState<string[]>();
-  const [gender, cetGender] = useState<'Woman' | 'Man' | 'Unisex'>()
-  const [category, setCategory] = useState('')
-  const [price, setPrice] = useState(0)
-  const [src, setSrc] = useState<string[]>([])
   const fileRef = useRef<HTMLInputElement | null>(null!)
+  const [productInfo, setProductInfo] = useState<Product>({
+    title: '',
+    desc: '',
+    gender: 'Woman',
+    price: 0,
+    images: [],
+    types: [],
+    cats: [],
+    colors: [],
+    sizes: []
+  })
   
 
   const previewFiles = () => {
     const files = fileRef.current?.files!
     const reader = new FileReader();
 
-    reader.onloadend = () => setSrc([...src, String(reader.result)]);
+    reader.onloadend = () => setProductInfo({...productInfo, images: [...productInfo.images, String(reader.result)]})
 
     for(let i = 0; i < files.length; i++) {
       if(files[i]) {
         reader.readAsDataURL(files[i])
       } else {
-        setSrc([])
+        setProductInfo({...productInfo, images: []})
       }
     }
   }
 
   const handleDelete = (imgSrc: string) => {
-    setSrc(src.filter(el => el !== imgSrc))
+    setProductInfo({...productInfo, images: productInfo.images.filter(img => img !== imgSrc)})
+  }
+
+
+  const handleProductInfoChange = (e: any) => {
+    const { type, name, value } = e.target;
+
+    setProductInfo(prev => ({
+      ...prev,
+      [name]: type === 'number' ? Number(value) : value
+    }))
+  }
+
+
+  const handleArrays = (keyName: Arrays, value: string) => {
+    setProductInfo(prev => ({
+      ...prev,
+      [keyName]: prev[keyName].indexOf(value) !== -1 ? prev[keyName].filter(pr => pr !== value) : [...prev[keyName], value]
+    }))
+  }
+
+
+  const handleSubmit = (e: React.SyntheticEvent) => {
+    e.preventDefault();
+    if(!Object.values(productInfo).every(el => Boolean(el))) {
+      console.log('requireddd')
+      return false
+    }
   }
 
 
@@ -41,6 +74,11 @@ const AddProductPage = () => {
   },[])
 
 
+  useEffect(() => {
+    console.log(productInfo)
+  }, [productInfo])
+
+
   return (
     <section className='flex-1 p-4 md:p-6'>
         <h2 className=''>Post New Product</h2>
@@ -48,15 +86,16 @@ const AddProductPage = () => {
             <span className='text-xl'><AiFillInfoCircle /></span>
             <p>An error ocurred</p>
         </h4>
-        <form className="flex flex-col gap-2">
+        <form onSubmit={handleSubmit} className="flex flex-col gap-2">
            <label className="flex-col flex gap-2" htmlFor="title">
               <p className='text-lg font-semibold'>Title:</p>
               <input 
                 id='title'
                 title="Product title"
                 type="text" 
-                value={title}
-                onChange={e => setTitle(e.target.value)}
+                name='title'
+                value={productInfo.title}
+                onChange={handleProductInfoChange}
                 className='p-2'
             />
             <p className='text-gray-600 font-semibold'>You Title Should match the product you're offering.</p>
@@ -66,8 +105,9 @@ const AddProductPage = () => {
               <textarea 
                 id='desc'
                 title="Product Description"
-                value={description}
-                onChange={e => setDescription(e.target.value)}
+                name='desc'
+                value={productInfo.desc}
+                onChange={handleProductInfoChange}
                 className='p-2 !min-h-[150px]'
             />
             <p className='text-gray-600 font-semibold'>You Description Should Describe the product you're offering or we will reject your offer.</p>
@@ -86,6 +126,8 @@ const AddProductPage = () => {
                     style={{accentColor: hex, borderColor: hex}}
                     className='!h-8 !w-8 !rounded-full'
                     value={hex}
+                    checked={productInfo.colors.indexOf(hex) !== -1}
+                    onChange={() => handleArrays('colors', hex)}
                   />
                  </label>
                 ))}
@@ -102,6 +144,8 @@ const AddProductPage = () => {
                     title={type}
                     value={type}
                     type="checkbox" 
+                    checked={productInfo.types.indexOf(type) !== -1}
+                    onChange={() => handleArrays('types', type)}
                     />
                     <p className='capitalize'>{type}</p>
                   </label>
@@ -118,6 +162,8 @@ const AddProductPage = () => {
                     title={category}
                     value={category}
                     type="checkbox" 
+                    checked={productInfo.cats.indexOf(category) !== -1}
+                    onChange={() => handleArrays('cats', category)}
                     />
                     <p className='capitalize'>{category}</p>
                   </label>
@@ -134,6 +180,8 @@ const AddProductPage = () => {
                     title={size}
                     value={size}
                     type="checkbox" 
+                    checked={productInfo.sizes.indexOf(size) !== -1}
+                    onChange={() => handleArrays('sizes', size)}
                     />
                     <p className='uppercase'>{size}</p>
                   </label>
@@ -150,6 +198,9 @@ const AddProductPage = () => {
                     title={gender}
                     value={gender}
                     type="checkbox" 
+                    name='gender'
+                    checked={productInfo.gender === gender}
+                    onChange={handleProductInfoChange}
                     />
                     <p className='capitalize'>{gender}</p>
                   </label>
@@ -162,11 +213,12 @@ const AddProductPage = () => {
               <p className='text-lg font-semibold'>Price: ($)</p>
                 <input 
                 type="number" 
-                value={price}
-                onChange={e => Number(e.target.value) >= 0 ? setPrice(Number(e.target.value)) : 0}
+                value={productInfo.price}
+                onChange={handleProductInfoChange}
                 title='Price'
                 className='max-w-[200px] p-2 rounded-md'
                 id='price'
+                name='price'
                 />
               </label>
               <label htmlFor="files" className='flex flex-col gap-2 relative'>
@@ -189,8 +241,8 @@ const AddProductPage = () => {
                 </button>
               </label>
 
-              {src.length >= 0  && <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2'>
-                  {src.map((img, index) => (
+              {productInfo.images.length >= 0  && <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2'>
+                  {productInfo.images.map((img, index) => (
                     <div key={index} className='border border-purplePrimary rounded-md overflow-hidden h-fit relative'>
                       <button 
                       type='button'

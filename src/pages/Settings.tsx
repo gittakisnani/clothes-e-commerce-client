@@ -1,6 +1,6 @@
 import { COUNTRIES, LANGUAGES } from "../config/config"
 import { useState, useEffect } from 'react'
-import { Link, useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import { HiOutlineHome} from '../Icons'
 import { handleMetaTags, setPageTitle } from "../utils/pageUtils"
 import { UserInfo } from "../types/types"

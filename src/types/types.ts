@@ -43,3 +43,20 @@ export interface UpdateUserParams {
 }
 
 export interface UserInfo extends UpdateUserInput {}
+
+
+export interface Product {
+    title: string
+    desc: string
+    colors: string[]
+    types: string[]
+    sizes: string[]
+    cats: string[]
+    images: string[]
+    gender: 'Woman' | 'Man' | 'Unisex'
+    price: number
+}
+
+export interface ProductParams {
+    productId: string;
+}
