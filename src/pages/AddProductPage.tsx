@@ -1,6 +1,8 @@
 import { useState, useRef, useEffect } from 'react'
+import Modal from '../components/Modal';
 import { CATEGORIES, COLORS, SIZES, TYPE_FILTERS } from '../config/config';
-import { IoTrashBinOutline, AiFillInfoCircle } from '../Icons'
+import { useCreateProductMutation } from '../feature/productApiSlice';
+import { IoTrashBinOutline, AiFillInfoCircle, BsCheckLg } from '../Icons'
 import { Product } from '../types/types';
 import { handleMetaTags, setPageTitle } from '../utils/pageUtils';
 
@@ -19,7 +21,14 @@ const AddProductPage = () => {
     colors: [],
     sizes: []
   })
+  const [createProduct, { isLoading }] = useCreateProductMutation();
+  const [errMsg, setErrMsg] = useState('');
+
+  const [modal, setModal] = useState(false)
+  const [modalText, setModalText] = useState('');
   
+
+  const spinner = <div className="w-12 h-12 border-4 border-dashed rounded-full animate-spin dark:border-violet-400"></div>
 
   const previewFiles = () => {
     const files = fileRef.current?.files!
@@ -59,11 +68,24 @@ const AddProductPage = () => {
   }
 
 
-  const handleSubmit = (e: React.SyntheticEvent) => {
+  const handleSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
     if(!Object.values(productInfo).every(el => Boolean(el))) {
-      console.log('requireddd')
-      return false
+      return setErrMsg('All fields are required')
+    }
+
+    if(productInfo.desc.length < 20 ) {
+      return setErrMsg('Please make sure the description is more than 20 chars')
+    }
+
+    try {
+      const product = await createProduct(productInfo);
+      setModal(true)
+      setModalText('Product successfully created')
+    } catch(err: any) {
+      console.log(err)
+      setErrMsg(err.data.message || 'Cannot Create product')
+      setModal(false)
     }
   }
 
@@ -73,19 +95,31 @@ const AddProductPage = () => {
     handleMetaTags('Add new product page', 'With this page sellers can add their products and offer them to buyers')
   },[])
 
+  useEffect(() => {
+    setModal(isLoading)
+    setModalText('Creating new product...')
+  }, [isLoading])
+
 
   useEffect(() => {
-    console.log(productInfo)
+    setErrMsg('')
   }, [productInfo])
+
 
 
   return (
     <section className='flex-1 p-4 md:p-6'>
+      {modal && <Modal setModal={setModal}>
+          <div className='p-4 flex gap-2 text-xl items-center '>
+            {modalText === 'Product successfully created' ? <span className='text-green-500'><BsCheckLg /></span> : spinner}
+            {modalText}
+            </div>
+        </Modal>}
         <h2 className=''>Post New Product</h2>
-        <h4 className='flex bg-red-300 text-red-600 gap-2 items-center font-semibold p-2 my-2 text-lg'>
+        {errMsg && <h4 className='flex bg-red-300 text-red-600 gap-2 items-center font-semibold p-2 my-2 text-lg'>
             <span className='text-xl'><AiFillInfoCircle /></span>
-            <p>An error ocurred</p>
-        </h4>
+            <p>{errMsg}</p>
+        </h4>}
         <form onSubmit={handleSubmit} className="flex flex-col gap-2">
            <label className="flex-col flex gap-2" htmlFor="title">
               <p className='text-lg font-semibold'>Title:</p>
@@ -253,7 +287,6 @@ const AddProductPage = () => {
                     </div>
                   ))}
               </div>}
-
               <div className='actions flex justify-end gap-2 items-center'>
                 <button 
                   title='Save draft'
