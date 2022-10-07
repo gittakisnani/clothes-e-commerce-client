@@ -59,7 +59,7 @@ const Settings = () => {
       }
     }
 
-    getUser('6339cba43ef8fedaf21fed20')
+    getUser('6339cc739218b725d7dad37d')
 
     setPageTitle('Settings')
     handleMetaTags('Settings, user settings', 'With this page sellers, users or buyers can change their profile settings like first and last names username, email, bio....')
@@ -84,7 +84,7 @@ const Settings = () => {
     //Add modal
     //DB Stuff
     try {
-      const user = await update({updates: userInfo, params: {userId: '6339cba43ef8fedaf21fed20'}})
+      const user = await update({updates: userInfo, params: {userId: '6339cc739218b725d7dad37d'}})
       console.log(user)
     } catch(err: any) {
       setErrMsg(err.data.message || 'An error was occurred. Please try again.')
@@ -233,7 +233,7 @@ const Settings = () => {
             <button
             type="button"
             className="p-2 mt-2 rounded-md bg-red-600 border border-red-800 font-bold text-lg text-white flex gap-2 items-center"
-            onClick={() => handleAccountDeletion('6339cba43ef8fedaf21fed20')}
+            onClick={() => handleAccountDeletion('6339cc739218b725d7dad37d')}
             >
               Delete my account
             </button>
