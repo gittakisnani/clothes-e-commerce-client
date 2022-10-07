@@ -5,7 +5,7 @@ import { HiOutlineHome} from '../Icons'
 import { handleMetaTags, setPageTitle } from "../utils/pageUtils"
 import { UserInfo } from "../types/types"
 import { AiFillInfoCircle } from '../Icons'
-import { useGetUserByIdMutation, useUpdateMutation } from "../feature/userApiSlice"
+import { useDeleteMutation, useGetUserByIdMutation, useUpdateMutation } from "../feature/userApiSlice"
 
 
 type LoadUserFN = (id: string) => Promise<UserInfo | null>
@@ -25,7 +25,8 @@ const Settings = () => {
   })
   const [errMsg, setErrMsg] = useState('')
   const [update, { isLoading }] = useUpdateMutation();
-  const [getUserById] = useGetUserByIdMutation()
+  const [getUserById, { isLoading: loadUserLoading}] = useGetUserByIdMutation();
+  const [deleteUser, { isLoading: deleteUserLoading }] = useDeleteMutation()
   const handleChange = (e: any) => {
     const { type, name } = e.target;
     const value = type !== 'checkbox' ? e.target.value : e.target.checked;
@@ -36,15 +37,24 @@ const Settings = () => {
     }))
   }
 
+
+  const handleAccountDeletion = async (userId: string) => {
+    try {
+      await deleteUser({ userId });
+      console.log('User deleted')
+    } catch(err: any) {
+      setErrMsg(err.data.message || 'Cannot delete user')
+    }
+  }
+
   useEffect(() => {
     const getUser: LoadUserFN = async (id: string) => {
       try {
         const { user } = await getUserById(id).unwrap();
-        console.log(user)
         setUserInfo(user)
         return user
       } catch(err) {
-        console.log(err);
+        navigate('/404')
         return null
       }
     }
@@ -160,7 +170,7 @@ const Settings = () => {
             onChange={handleChange}
             />
           </label>
-          <div className="profile_settings">
+          <div className="profile_settings mt-4">
             <h3 className="font-bold">Personal Information</h3>
             <p className="text-gray-600 font-semibold">This information will be displayed publicly so be careful what you share!</p>
           </div>
@@ -217,6 +227,16 @@ const Settings = () => {
                 ))}
               </select>
             </label>
+          </div>
+          <div className="mt-4 text-red-600">
+            <h3 className="font-bold">Danger zone</h3>
+            <button
+            type="button"
+            className="p-2 mt-2 rounded-md bg-red-600 border border-red-800 font-bold text-lg text-white flex gap-2 items-center"
+            onClick={() => handleAccountDeletion('6339cba43ef8fedaf21fed20')}
+            >
+              Delete my account
+            </button>
           </div>
           <div className="w-full flex justify-end gap-2 items-center mt-2">
             <button type="reset" className="bg-gray-300 text-black rounded-md p-2 font-semibold">Cancel</button>
