@@ -28,7 +28,7 @@ function App() {
           <Route index element={<Content />} />
           <Route path="product/:id" element={<ProductPage back />} />
           <Route path="product/new" element={<AddProductPage />} />
-          <Route path="product/edit" element={<EditProductPage />} />
+          <Route path="product/edit/:id" element={<EditProductPage />} />
         </Route>
       </Route>
       {/* 404 Page */}

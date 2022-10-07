@@ -5,6 +5,7 @@ import { useCreateProductMutation } from '../feature/productApiSlice';
 import { IoTrashBinOutline, AiFillInfoCircle, BsCheckLg } from '../Icons'
 import { Product } from '../types/types';
 import { handleMetaTags, setPageTitle } from '../utils/pageUtils';
+export const spinner = <div className="w-12 h-12 border-4 border-dashed rounded-full animate-spin dark:border-violet-400"></div>
 
 export type Arrays = 'colors' | 'images' | 'sizes' | 'types' | 'cats' 
 
@@ -28,7 +29,6 @@ const AddProductPage = () => {
   const [modalText, setModalText] = useState('');
   
 
-  const spinner = <div className="w-12 h-12 border-4 border-dashed rounded-full animate-spin dark:border-violet-400"></div>
 
   const previewFiles = () => {
     const files = fileRef.current?.files!
@@ -70,7 +70,7 @@ const AddProductPage = () => {
 
   const handleSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
-    if(!Object.values(productInfo).every(el => Boolean(el))) {
+    if(!Object.values(productInfo).every(el => Boolean(Array.isArray(el) ? el.length : el))) {
       return setErrMsg('All fields are required')
     }
 
@@ -82,6 +82,7 @@ const AddProductPage = () => {
       const product = await createProduct(productInfo);
       setModal(true)
       setModalText('Product successfully created')
+      setInterval(() => setModal(false), 3000)
     } catch(err: any) {
       console.log(err)
       setErrMsg(err.data.message || 'Cannot Create product')
