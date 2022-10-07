@@ -94,6 +94,21 @@ const EditProductPage = () => {
     navigate('/')
   }
 
+  const handleDeleteProduct = async (productId: string) => {
+    try {
+      await deleteProduct({ productId }).unwrap();
+      setModal(true)
+      setModalText('Product successfully deleted');
+      setInterval(() => {
+        setModal(false);
+        setModalText('')
+        navigate('/')
+      }, 3000)
+    } catch(err) {
+      setErrMsg('Cannot delete product')
+    }
+  }
+
 
   useEffect(() => {
     const getProductHandler = async () => {
@@ -313,6 +328,15 @@ const EditProductPage = () => {
                   className='bg-secondaryLight text-black font-semibold p-2 rounded-md border border-black'
                 >
                   Discard changes
+                </button>
+                <button 
+                  type='button'
+                  onClick={() => handleDeleteProduct(productId as string)}
+                  title='Delete Product'
+                  className='bg-secondaryLight font-bold p-2 rounded-md border text-white flex gap-2 items-center bg-red-400 duration-200 ease-in-out hover:bg-red-500 border-red-600'
+                >
+                  <span><IoTrashBinOutline /></span>
+                  Delete Product
                 </button>
                 <button 
                   type='submit'
