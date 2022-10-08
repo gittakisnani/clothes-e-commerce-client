@@ -1,14 +1,16 @@
 import { COUNTRIES, LANGUAGES } from "../config/config"
 import { useState, useEffect } from 'react'
 import { useNavigate } from "react-router-dom"
-import { HiOutlineHome} from '../Icons'
+import { HiOutlineHome, BsCheckLg} from '../Icons'
 import { handleMetaTags, setPageTitle } from "../utils/pageUtils"
 import { UserInfo } from "../types/types"
 import { AiFillInfoCircle } from '../Icons'
-import { useDeleteMutation, useGetUserByIdMutation, useUpdateMutation } from "../feature/userApiSlice"
+import { useDeleteMutation, useGetMeMutation, useUpdateMutation } from "../feature/userApiSlice"
+import Modal from "../components/Modal"
+import { spinner } from "./AddProductPage"
 
 
-type LoadUserFN = (id: string) => Promise<UserInfo | null>
+type LoadUserFN = () => Promise<UserInfo | null>
 
 const Settings = () => {
   const navigate = useNavigate();
@@ -25,8 +27,15 @@ const Settings = () => {
   })
   const [errMsg, setErrMsg] = useState('')
   const [update, { isLoading }] = useUpdateMutation();
-  const [getUserById, { isLoading: loadUserLoading}] = useGetUserByIdMutation();
+  const [getMe, { isLoading: loadUserLoading}] = useGetMeMutation();
   const [deleteUser, { isLoading: deleteUserLoading }] = useDeleteMutation()
+  const [modal, setModal] = useState(false);
+  const [modalText, setModalText] = useState('')
+
+
+
+
+
   const handleChange = (e: any) => {
     const { type, name } = e.target;
     const value = type !== 'checkbox' ? e.target.value : e.target.checked;
@@ -41,33 +50,17 @@ const Settings = () => {
   const handleAccountDeletion = async (userId: string) => {
     try {
       await deleteUser({ userId });
-      console.log('User deleted')
+      setModalText('User successfully Deleted');
+
+      setInterval(() => {
+        setErrMsg('');
+        setModal(false);
+        navigate('/', { replace: true })
+      }, 3000)
     } catch(err: any) {
       setErrMsg(err.data.message || 'Cannot delete user')
     }
   }
-
-  useEffect(() => {
-    const getUser: LoadUserFN = async (id: string) => {
-      try {
-        const { user } = await getUserById(id).unwrap();
-        setUserInfo(user)
-        return user
-      } catch(err) {
-        navigate('/404')
-        return null
-      }
-    }
-
-    getUser('6339cc739218b725d7dad37d')
-
-    setPageTitle('Settings')
-    handleMetaTags('Settings, user settings', 'With this page sellers, users or buyers can change their profile settings like first and last names username, email, bio....')
-  },[])
-
-  useEffect(() => {
-    setErrMsg('')
-  }, Object.keys(userInfo))
 
   const handleReset = () => {
     alert('All changes won\'t be saved')
@@ -75,17 +68,25 @@ const Settings = () => {
 
   const handleSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault()
+    console.log(userInfo)
 
-    //If about ? About should be 20 chars or more.
     if(!Object.values(userInfo).every(vl => Boolean(vl))) {
       setErrMsg('All fields are required.');
       return;
     }
-    //Add modal
-    //DB Stuff
+    
+    //If about ? About should be 20 chars or more.
+    if(userInfo.about.length < 20) {
+      return setErrMsg('About should be 20 characters at least')
+    }
     try {
       const user = await update({updates: userInfo, params: {userId: '6339cc739218b725d7dad37d'}})
-      console.log(user)
+      setModalText('Settings successfully updated');
+
+      setInterval(() => {
+        setErrMsg('');
+        setModal(false)
+      }, 3000)
     } catch(err: any) {
       setErrMsg(err.data.message || 'An error was occurred. Please try again.')
     } 
@@ -96,10 +97,43 @@ const Settings = () => {
     navigate('/')
   }
 
+
+  useEffect(() => {
+    const getUser: LoadUserFN = async () => {
+      try {
+        const { user } = await getMe('').unwrap();
+        setUserInfo(user)
+        setModal(false);
+        return user
+      } catch(err) {
+        navigate('/404')
+        return null
+      }
+    }
+
+    getUser()
+
+    setPageTitle('Settings')
+    handleMetaTags('Settings, user settings', 'With this page sellers, users or buyers can change their profile settings like first and last names username, email, bio....')
+  },[])
+
+  useEffect(() => setErrMsg(''), [userInfo]);
+
+  useEffect(() => {
+    setModal(true);
+    setModalText(loadUserLoading ? 'Loading user settings...' : isLoading ? 'Updating user settings' : 'Deleting user...')
+  }, [isLoading, loadUserLoading, deleteUserLoading])
+
   return (
     <>
     <div className="header p-8 flex items-center justify-between font-semibold text-xl border-b">
       <h3>Settings</h3>
+      {modal && <Modal setModal={setModal}>
+          <div className='p-4 flex gap-2 text-xl items-center '>
+            {modalText.includes('successfully') ? <span className='text-green-500'><BsCheckLg /></span> : spinner}
+            {modalText}
+            </div>
+        </Modal>}
       <p onClick={handleNavigate} className="text-lg flex gap-2 items-center cursor-pointer"><HiOutlineHome />Home</p>
     </div>
     <section className=''>

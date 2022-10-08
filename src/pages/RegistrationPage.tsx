@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import Modal from '../components/Modal'
 import { useRegisterMutation } from '../feature/authApiSlice'
-import { BsTwitter, AiOutlineGithub, BsFacebook, AiFillInfoCircle } from '../Icons'
+import { BsTwitter, AiOutlineGithub, BsFacebook, AiFillInfoCircle, BsCheckLg } from '../Icons'
+import getGoogleOAuthURL from '../utils/getGoogleUrl'
 import { handleMetaTags, setPageTitle } from '../utils/pageUtils'
+import { spinner } from './AddProductPage'
 
 const IMAGE = 'https://brand.assets.adidas.com/image/upload/f_auto,q_auto,fl_lossy/enUS/Images/SEO_Forum-Size-Guide_Mastead_Teaser-Carousel_tcm221-919208.jpg'
 
@@ -14,6 +17,8 @@ const RegistrationPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errMsg, setErrMsg] = useState('')
+  const [modal, setModal] = useState(false)
+  const [modalText, setModalText] = useState('')
 
   const navigate = useNavigate()
 
@@ -26,7 +31,14 @@ const RegistrationPage = () => {
 
   useEffect(() => {
     setErrMsg('')
-  }, [email, password])
+  }, [email, password]);
+
+  useEffect(() => {
+    if(isLoading) {
+      setModal(true)
+      setModalText('Registering user...')
+    }
+  }, [isLoading])
 
   const handleEmailChange = (e: any) => {
     setEmail(e.target.value as string)
@@ -49,15 +61,32 @@ const RegistrationPage = () => {
 
     try {
       const user = await register({ email, password}).unwrap();
-      navigate('/')
+      setModal(true)
+      setModalText('User successfully created')
+
+
+      setInterval(() => {
+        setModalText('')
+        setModal(false)
+
+        navigate('/')
+      }, 3000 )
     } catch(err: any) {
-      setErrMsg(err?.data?.message as string || 'Login failed')
+      setModal(false)
+      setErrMsg(err?.data?.message as string || 'Registration failed')
     }
   }
 
   
   return (
     <section className='flex min-h-screen'>
+      {modal && <Modal setModal={setModal}>
+          <div className='p-4 flex gap-2 text-xl items-center '>
+            {modalText.includes('User') ? <span className='text-green-500'><BsCheckLg /></span> : spinner}
+            {modalText}
+            </div>
+            </Modal>
+        }
      <div className='p-6 md:p-10 w-full md:w-fit flex flex-col '>
         <p className="text-2xl pb-4">Taki<span className="font-bold">Snani</span></p>
         <div className='flex-1 flex flex-col justify-center'>
@@ -72,9 +101,9 @@ const RegistrationPage = () => {
           <button title='Register with Twitter' className={'px-4 py-2 rounded-md border border-primaryLight text-primaryLight grid place-items-center text-xl ' + OAuthHoverClass}>
             <BsTwitter />
           </button>
-          <button title='Register with Facebook' className={'px-4 py-2 rounded-md border border-primaryLight text-primaryLight grid place-items-center text-xl ' + OAuthHoverClass}>
+          <a href={getGoogleOAuthURL()} title='Register with Facebook' className={'px-4 py-2 rounded-md border border-primaryLight text-primaryLight grid place-items-center text-xl ' + OAuthHoverClass}>
             <BsFacebook />
-          </button>
+          </a>
           <button title='Register with Github' className={'px-4 py-2 rounded-md border border-primaryLight text-primaryLight grid place-items-center text-2xl ' +  OAuthHoverClass}>
             <AiOutlineGithub />
           </button>

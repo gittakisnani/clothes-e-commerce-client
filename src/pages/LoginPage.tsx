@@ -1,13 +1,19 @@
 import { useEffect, useState } from 'react'
-import { BsTwitter, AiOutlineGithub, BsFacebook, AiFillInfoCircle } from '../Icons'
+import { BsTwitter, AiOutlineGithub, BsFacebook, AiFillInfoCircle, BsCheckLg } from '../Icons'
 import { handleMetaTags, setPageTitle } from '../utils/pageUtils'
 import { OAuthHoverClass } from './RegistrationPage'
 import { Link, useNavigate } from 'react-router-dom'
 import { useLoginMutation, useLogoutMutation} from '../feature/authApiSlice'
+import Modal from '../components/Modal'
+import { spinner } from './AddProductPage'
+import getGoogleOAuthURL from '../utils/getGoogleUrl'
+
 const LoginPage = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [errMsg, setErrMsg] = useState('');
+    const [modal, setModal] = useState(false)
+    const [modalText, setModalText] = useState('');
     const navigate = useNavigate()
 
     const [login, { isLoading }] = useLoginMutation()
@@ -30,6 +36,13 @@ const LoginPage = () => {
         setPassword(e.target.value as string)
     }
 
+    useEffect(() => {
+        if(isLoading) {
+            setModal(true)
+            setModalText('Logging in...')
+        }
+    }, [isLoading])
+
     const handleSubmit = async (e: React.SyntheticEvent) => {
         e.preventDefault();
         if(!email || !password) {
@@ -45,8 +58,17 @@ const LoginPage = () => {
 
         try {
             const user = await login({ password, email }).unwrap();
-            navigate('/')
+            setModal(true);
+            setModalText('You\'re logged in.')
+
+
+            setInterval(() => {
+                setModal(false)
+                setModalText('')
+                navigate('/')
+            })
         } catch(err: any) {
+            setModal(false)
             setErrMsg(err?.data?.message ? err.data.message : 'Login failed')
         }
 
@@ -54,6 +76,13 @@ const LoginPage = () => {
 
   return (
     <section className='min-h-screen grid place-items-center p-4 md:p-6 relative'>
+         {modal && <Modal setModal={setModal}>
+          <div className='p-4 flex gap-2 text-xl items-center '>
+            {modalText.includes('Logged in') ? <span className='text-green-500'><BsCheckLg /></span> : spinner}
+            {modalText}
+            </div>
+            </Modal>
+        }
         <div className='w-full max-w-[450px] bg-white'>
             <form onSubmit={handleSubmit} className='border rounded-md p-4 md:p-10 flex-col flex gap-4'>
                 <p className="text-2xl pb-4">Taki<span className="font-bold">Snani</span></p>
@@ -103,9 +132,9 @@ const LoginPage = () => {
                     <button title='Login with Twitter' className={'px-4 py-2 rounded-md border border-primaryLight text-primaryLight grid place-items-center text-xl ' + OAuthHoverClass}>
                         <BsTwitter />
                     </button>
-                    <button title='Login with Facebook' className={'px-4 py-2 rounded-md border border-primaryLight text-primaryLight grid place-items-center text-xl ' + OAuthHoverClass}>
+                    <a href={getGoogleOAuthURL()} title='Login with Facebook' className={'px-4 py-2 rounded-md border border-primaryLight text-primaryLight grid place-items-center text-xl ' + OAuthHoverClass}>
                         <BsFacebook />
-                    </button>
+                    </a>
                     <button title='Login with Github' className={'px-4 py-2 rounded-md border border-primaryLight text-primaryLight grid place-items-center text-2xl ' +  OAuthHoverClass}>
                         <AiOutlineGithub />
                     </button>

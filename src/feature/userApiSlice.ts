@@ -26,6 +26,12 @@ const userApiSlice = apiSlice.injectEndpoints({
                 url: `/users/${userId}`,
                 method: 'DELETE',
             })
+        }),
+        getMe: builder.mutation({
+            query: () => ({
+                url: '/me',
+                method: 'GET'
+            })
         })
     })
 })
@@ -34,7 +40,8 @@ const userApiSlice = apiSlice.injectEndpoints({
 export const {
     useUpdateMutation,
     useDeleteMutation,
-    useGetUserByIdMutation
+    useGetUserByIdMutation,
+    useGetMeMutation
 } = userApiSlice
 
 
