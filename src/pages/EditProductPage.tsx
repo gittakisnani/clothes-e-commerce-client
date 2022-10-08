@@ -166,7 +166,7 @@ const EditProductPage = () => {
             />
             <p className='text-gray-600 font-semibold'>You Title Should match the product you're offering.</p>
            </label>
-           <label className="flex-col flex gap-2" htmlFor="desc">
+           <label className="flex-col flex gap-2 relative" htmlFor="desc">
            <p className='text-lg font-semibold'>Description:</p>
               <textarea 
                 id='desc'
@@ -176,6 +176,10 @@ const EditProductPage = () => {
                 onChange={handleProductInfoChange}
                 className='p-2 !min-h-[150px]'
             />
+
+            <p 
+            style={{color: productInfo.desc.length >= 20 ? 'green' : 'red'}}
+            className='absolute bottom-10 right-6 font-semibold'>{productInfo.desc.length}</p>
             <p className='text-gray-600 font-semibold'>You Description Should Describe the product you're offering or we will reject your offer.</p>
            </label>
             <div className='flex-col gap-2 flex'>
