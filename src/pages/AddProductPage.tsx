@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from 'react'
-import Modal from '../components/Modal';
+import { Props } from '../App';
+import { useNavigate } from 'react-router-dom';
 import { CATEGORIES, COLORS, SIZES, TYPE_FILTERS } from '../config/config';
 import { useCreateProductMutation } from '../feature/productApiSlice';
 import { IoTrashBinOutline, AiFillInfoCircle, BsCheckLg } from '../Icons'
@@ -9,8 +10,12 @@ export const spinner = <div className="w-12 h-12 border-4 border-dashed rounded-
 
 export type Arrays = 'colors' | 'images' | 'sizes' | 'types' | 'cats' 
 
-const AddProductPage = () => {
+const AddProductPage = ({ setModal, setModalInfo }: Props) => {
+  const navigate = useNavigate()
+
   const fileRef = useRef<HTMLInputElement | null>(null!)
+  const errRef = useRef<HTMLHeadingElement | null>(null!)
+  
   const [productInfo, setProductInfo] = useState<Product>({
     title: '',
     desc: '',
@@ -24,10 +29,6 @@ const AddProductPage = () => {
   })
   const [createProduct, { isLoading }] = useCreateProductMutation();
   const [errMsg, setErrMsg] = useState('');
-
-  const [modal, setModal] = useState(false)
-  const [modalText, setModalText] = useState('');
-  const errRef = useRef<HTMLHeadingElement | null>(null!)
   
 
 
@@ -80,10 +81,17 @@ const AddProductPage = () => {
     }
 
     try {
-      const product = await createProduct(productInfo).unwrap();
+      await createProduct(productInfo).unwrap();
       setModal(true)
-      setModalText('Product successfully created')
-      setInterval(() => setModal(false), 3000)
+      setModalInfo({
+        icon: <BsCheckLg />,
+        iconColor: 'text-green-500',
+        text: 'Product successfully created'
+      })
+      setInterval(() => {
+        setModal(false);
+        navigate('/')
+      }, 2000)
     } catch(err: any) {
       setErrMsg(err?.data?.message || 'Cannot Create product')
       setModal(false)
@@ -98,7 +106,11 @@ const AddProductPage = () => {
 
   useEffect(() => {
     setModal(isLoading)
-    setModalText('Creating new product...')
+    setModalInfo({
+      iconColor: '',
+      text: 'Creating product...',
+      icon: spinner
+    })
   }, [isLoading])
 
 
@@ -110,12 +122,6 @@ const AddProductPage = () => {
 
   return (
     <section className='flex-1 p-4 md:p-6'>
-      {modal && <Modal setModal={setModal}>
-          <div className='p-4 flex gap-2 text-xl items-center '>
-            {modalText === 'Product successfully created' ? <span className='text-green-500'><BsCheckLg /></span> : spinner}
-            {modalText}
-            </div>
-        </Modal>}
         <h2 ref={errRef} className=''>Post New Product</h2>
         {errMsg && <h4 className='flex bg-red-300 text-red-600 gap-2 items-center font-semibold p-2 my-2 text-lg'>
             <span className='text-xl'><AiFillInfoCircle /></span>

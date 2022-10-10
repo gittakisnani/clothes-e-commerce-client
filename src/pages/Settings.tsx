@@ -5,14 +5,13 @@ import { HiOutlineHome, BsCheckLg} from '../Icons'
 import { handleMetaTags, setPageTitle } from "../utils/pageUtils"
 import { UserInfo } from "../types/types"
 import { AiFillInfoCircle } from '../Icons'
-import { useDeleteMutation, useGetMeMutation, useUpdateMutation } from "../feature/userApiSlice"
-import Modal from "../components/Modal"
+import { useDeleteMutation, useGetMeMutation, useUpdateMutation, useGetUserByIdMutation } from "../feature/userApiSlice"
 import { spinner } from "./AddProductPage"
+import { Props } from "../App"
 
+type LoadUserFN = () => void
 
-type LoadUserFN = () => Promise<UserInfo | null>
-
-const Settings = () => {
+const Settings = ({ setModal, setModalInfo }: Props) => {
   const navigate = useNavigate();
   const [userInfo, setUserInfo] = useState<Omit<UserInfo, 'password'>>({
     firstName: '',
@@ -23,17 +22,13 @@ const Settings = () => {
     url: '',
     about: '',
     email: '',
-    username: ''
+    _id: ''
   })
   const [errMsg, setErrMsg] = useState('')
   const [update, { isLoading }] = useUpdateMutation();
   const [getMe, { isLoading: loadUserLoading}] = useGetMeMutation();
+  const [getByd, { isLoading: getByIdLoading }] = useGetUserByIdMutation()
   const [deleteUser, { isLoading: deleteUserLoading }] = useDeleteMutation()
-  const [modal, setModal] = useState(false);
-  const [modalText, setModalText] = useState('')
-
-
-
 
 
   const handleChange = (e: any) => {
@@ -50,7 +45,11 @@ const Settings = () => {
   const handleAccountDeletion = async (userId: string) => {
     try {
       await deleteUser({ userId });
-      setModalText('User successfully Deleted');
+      setModalInfo({
+        icon: <BsCheckLg />,
+        text: 'User successfully deleted',
+        iconColor: 'text-red-500'
+      })
 
       setInterval(() => {
         setErrMsg('');
@@ -80,8 +79,12 @@ const Settings = () => {
       return setErrMsg('About should be 20 characters at least')
     }
     try {
-      const user = await update({updates: userInfo, params: {userId: '6339cc739218b725d7dad37d'}})
-      setModalText('Settings successfully updated');
+      await update({updates: userInfo, params: {userId: userInfo._id}})
+      setModalInfo({
+        text: 'User successfully updated',
+        iconColor: 'text-green-500',
+        icon: <BsCheckLg />
+      })
 
       setInterval(() => {
         setErrMsg('');
@@ -101,13 +104,12 @@ const Settings = () => {
   useEffect(() => {
     const getUser: LoadUserFN = async () => {
       try {
-        const { user } = await getMe('').unwrap();
+        const { _id } = await getMe('').unwrap();
+        const user = await getByd(_id).unwrap()
         setUserInfo(user)
         setModal(false);
-        return user
       } catch(err) {
         navigate('/404')
-        return null
       }
     }
 
@@ -117,23 +119,23 @@ const Settings = () => {
     handleMetaTags('Settings, user settings', 'With this page sellers, users or buyers can change their profile settings like first and last names username, email, bio....')
   },[])
 
-  useEffect(() => setErrMsg(''), [userInfo]);
+  useEffect(() => {
+    setErrMsg('');
+  }, [userInfo]);
 
   useEffect(() => {
     setModal(true);
-    setModalText(loadUserLoading ? 'Loading user settings...' : isLoading ? 'Updating user settings' : 'Deleting user...')
+    setModalInfo({
+      icon: spinner,
+      iconColor: '',
+      text: isLoading ? 'Updating user infos...' : loadUserLoading ? 'Loading user infos...' : deleteUserLoading ? 'Deleting user...' : 'Loading....'
+    })
   }, [isLoading, loadUserLoading, deleteUserLoading])
 
   return (
     <>
     <div className="header p-8 flex items-center justify-between font-semibold text-xl border-b">
       <h3>Settings</h3>
-      {modal && <Modal setModal={setModal}>
-          <div className='p-4 flex gap-2 text-xl items-center '>
-            {modalText.includes('successfully') ? <span className='text-green-500'><BsCheckLg /></span> : spinner}
-            {modalText}
-            </div>
-        </Modal>}
       <p onClick={handleNavigate} className="text-lg flex gap-2 items-center cursor-pointer"><HiOutlineHome />Home</p>
     </div>
     <section className=''>
@@ -171,17 +173,6 @@ const Settings = () => {
               />
             </label>
           </div>
-          <label htmlFor="username" className="set_label max-w-[500px]">
-            Username:
-            <input 
-            name="username"
-            type="text" 
-            className="set_input"
-            id="username"
-            value={userInfo.username}
-            onChange={handleChange}
-            />
-          </label>
           <label htmlFor="about" className="set_label max-w-[500px]">
             About:
             <textarea 
@@ -267,7 +258,7 @@ const Settings = () => {
             <button
             type="button"
             className="p-2 mt-2 rounded-md bg-red-600 border border-red-800 font-bold text-lg text-white flex gap-2 items-center"
-            onClick={() => handleAccountDeletion('6339cc739218b725d7dad37d')}
+            onClick={() => handleAccountDeletion(userInfo._id)}
             >
               Delete my account
             </button>

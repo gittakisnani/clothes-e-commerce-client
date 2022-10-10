@@ -30,7 +30,7 @@ const userApiSlice = apiSlice.injectEndpoints({
         getMe: builder.mutation({
             query: () => ({
                 url: '/me',
-                method: 'GET'
+                method: 'GET',
             })
         })
     })

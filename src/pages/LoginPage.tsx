@@ -3,17 +3,19 @@ import { BsTwitter, AiOutlineGithub, BsFacebook, AiFillInfoCircle, BsCheckLg } f
 import { handleMetaTags, setPageTitle } from '../utils/pageUtils'
 import { OAuthHoverClass } from './RegistrationPage'
 import { Link, useNavigate } from 'react-router-dom'
-import { useLoginMutation, useLogoutMutation} from '../feature/authApiSlice'
-import Modal from '../components/Modal'
+import { useLoginMutation } from '../feature/authApiSlice'
 import { spinner } from './AddProductPage'
 import getGoogleOAuthURL from '../utils/getGoogleUrl'
+import { useDispatch } from 'react-redux'
+import { setCredentials } from '../feature/authSlice'
+import { Props } from '../App'
 
-const LoginPage = () => {
+const LoginPage = ({ setModal, setModalInfo }: Props) => {
+    const dispatch = useDispatch()
+
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [errMsg, setErrMsg] = useState('');
-    const [modal, setModal] = useState(false)
-    const [modalText, setModalText] = useState('');
     const navigate = useNavigate()
 
     const [login, { isLoading }] = useLoginMutation()
@@ -39,7 +41,11 @@ const LoginPage = () => {
     useEffect(() => {
         if(isLoading) {
             setModal(true)
-            setModalText('Logging in...')
+            setModalInfo({
+                icon: spinner,
+                text: 'Logging in...',
+                iconColor: ''
+            })
         }
     }, [isLoading])
 
@@ -57,16 +63,25 @@ const LoginPage = () => {
 
 
         try {
-            const user = await login({ password, email }).unwrap();
+            const { accessToken, refreshToken} = await login({ password, email }).unwrap();
+            dispatch(setCredentials({ accessToken, refreshToken }))
             setModal(true);
-            setModalText('You\'re logged in.')
+            setModalInfo({
+                text: 'Successfully logged in.',
+                icon: <BsCheckLg />,
+                iconColor: 'text-green-500'
+            })
 
 
             setInterval(() => {
                 setModal(false)
-                setModalText('')
+                setModalInfo({
+                    icon: null,
+                    iconColor: '',
+                    text: ''
+                })
                 navigate('/')
-            })
+            }, 2000)
         } catch(err: any) {
             setModal(false)
             setErrMsg(err?.data?.message ? err.data.message : 'Login failed')
@@ -76,13 +91,6 @@ const LoginPage = () => {
 
   return (
     <section className='min-h-screen grid place-items-center p-4 md:p-6 relative'>
-         {modal && <Modal setModal={setModal}>
-          <div className='p-4 flex gap-2 text-xl items-center '>
-            {modalText.includes('Logged in') ? <span className='text-green-500'><BsCheckLg /></span> : spinner}
-            {modalText}
-            </div>
-            </Modal>
-        }
         <div className='w-full max-w-[450px] bg-white'>
             <form onSubmit={handleSubmit} className='border rounded-md p-4 md:p-10 flex-col flex gap-4'>
                 <p className="text-2xl pb-4">Taki<span className="font-bold">Snani</span></p>

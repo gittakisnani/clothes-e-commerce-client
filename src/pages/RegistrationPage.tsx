@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import Modal from '../components/Modal'
+import { Props } from '../App'
 import { useRegisterMutation } from '../feature/authApiSlice'
 import { BsTwitter, AiOutlineGithub, BsFacebook, AiFillInfoCircle, BsCheckLg } from '../Icons'
 import getGoogleOAuthURL from '../utils/getGoogleUrl'
@@ -13,12 +13,16 @@ const IMAGE = 'https://brand.assets.adidas.com/image/upload/f_auto,q_auto,fl_los
 export const OAuthHoverClass = 'hover:text-purplePrimary hover:border-purplePrimary focus:text-purplePrimary focus:border-purplePrimary active:text-purplePrimary active:border-purplePrimary duration-300 ease-in-out'
 
 
-const RegistrationPage = () => {
+const RegistrationPage = ({ setModal, setModalInfo }: Props) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errMsg, setErrMsg] = useState('')
-  const [modal, setModal] = useState(false)
-  const [modalText, setModalText] = useState('')
+  // const [modalText, setModalText] = useState('')
+  // const [modal, setModal] = useState(false)
+  const [agree, setAgree] = useState(false);
+
+
+  const handleChangeAgree = () => setAgree(!agree)
 
   const navigate = useNavigate()
 
@@ -36,7 +40,11 @@ const RegistrationPage = () => {
   useEffect(() => {
     if(isLoading) {
       setModal(true)
-      setModalText('Registering user...')
+      setModalInfo({
+        text: 'Registering user...',
+        icon: spinner,
+        iconColor: ''
+      })
     }
   }, [isLoading])
 
@@ -59,14 +67,26 @@ const RegistrationPage = () => {
       return setErrMsg('Password too short')
     }
 
+    if(!agree) {
+      return setErrMsg('You must agree the conditions to continue')
+    }
+
     try {
-      const user = await register({ email, password}).unwrap();
+      await register({ email, password}).unwrap();
       setModal(true)
-      setModalText('User successfully created')
+      setModalInfo({
+        text: 'User successfully created',
+        icon: <BsCheckLg />,
+        iconColor: 'text-green-500'
+      })
 
 
       setInterval(() => {
-        setModalText('')
+        setModalInfo({
+          text: '',
+          iconColor: '',
+          icon: null
+        })
         setModal(false)
 
         navigate('/')
@@ -80,13 +100,6 @@ const RegistrationPage = () => {
   
   return (
     <section className='flex min-h-screen'>
-      {modal && <Modal setModal={setModal}>
-          <div className='p-4 flex gap-2 text-xl items-center '>
-            {modalText.includes('User') ? <span className='text-green-500'><BsCheckLg /></span> : spinner}
-            {modalText}
-            </div>
-            </Modal>
-        }
      <div className='p-6 md:p-10 w-full md:w-fit flex flex-col '>
         <p className="text-2xl pb-4">Taki<span className="font-bold">Snani</span></p>
         <div className='flex-1 flex flex-col justify-center'>
@@ -138,6 +151,8 @@ const RegistrationPage = () => {
             id='persist'
             className='accent-purplePrimary rounded-md h-6 w-6'
             type="checkbox" 
+            checked={agree}
+            onChange={handleChangeAgree}
             />
             <div>I agree to the <span className='text-purplePrimary'>Terms of services</span> and <span className='text-purplePrimary'>Privacy policy</span></div>
           </label>

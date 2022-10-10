@@ -35,14 +35,15 @@ export interface UpdateUserInput {
     lang: string
     email: string
     password: string,
-    username: string
 }
 
 export interface UpdateUserParams {
     userId: string
 }
 
-export interface UserInfo extends UpdateUserInput {}
+export interface UserInfo extends UpdateUserInput {
+    _id: string
+}
 
 
 export interface Product {

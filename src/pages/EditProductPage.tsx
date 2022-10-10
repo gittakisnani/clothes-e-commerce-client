@@ -6,7 +6,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { Product } from '../types/types';
 import { Arrays, spinner } from './AddProductPage';
 import { useDeleteProductMutation, useGetProductMutation, useUpdateProductMutation } from '../feature/productApiSlice';
-import Modal from '../components/Modal';
+import { Props } from '../App';
 
 
 const initialState = {
@@ -20,15 +20,13 @@ const initialState = {
   colors: [],
   sizes: []
 } as Product
-const EditProductPage = () => {
+const EditProductPage = ({ setModal, setModalInfo }: Props) => {
   const fileRef = useRef<HTMLInputElement | null>(null!);
   const [productInfo, setProductInfo] = useState<Product>(initialState)
   const [getProduct, { isLoading }] = useGetProductMutation();
   const [updateProduct, { isLoading: updateProductLoading }] = useUpdateProductMutation();
   const [deleteProduct, { isLoading: deleteProductLoading }] = useDeleteProductMutation()
   const [errMsg, setErrMsg] = useState('');
-  const [modal, setModal] = useState(false)
-  const [modalText, setModalText] = useState('')
   const { id: productId } = useParams<{ id: string }>();
   const navigate = useNavigate()
 
@@ -79,10 +77,17 @@ const EditProductPage = () => {
 
     try {
       //@ts-ignore
-      const updated = await updateProduct({updates: {...productInfo}, params: { productId }}).unwrap();
+      await updateProduct({updates: {...productInfo}, params: { productId }}).unwrap();
       setModal(true)
-      setModalText('Product successfully updated')
-      setInterval(() => setModal(false), 3000)
+      setModalInfo({
+        text: 'Product successfully updated',
+        icon: <BsCheckLg />,
+        iconColor: 'text-green-500'
+      })
+      setInterval(() => {
+        setModal(false);
+        navigate('/')
+      }, 3000)
     } catch(err) {
       console.log(err)
     }
@@ -98,10 +103,18 @@ const EditProductPage = () => {
     try {
       await deleteProduct({ productId }).unwrap();
       setModal(true)
-      setModalText('Product successfully deleted');
+      setModalInfo({
+        text: 'Product successfully deleted',
+        icon: <BsCheckLg />,
+        iconColor: 'text-red-500'
+      });
       setInterval(() => {
         setModal(false);
-        setModalText('')
+        setModalInfo({
+          text: '',
+          icon: null,
+          iconColor: ''
+        })
         navigate('/')
       }, 3000)
     } catch(err) {
@@ -119,7 +132,8 @@ const EditProductPage = () => {
 
         setModal(false)
       } catch(err) {
-        navigate('/404')
+        navigate('/404');
+        setModal(false)
       }
     } 
 
@@ -132,7 +146,11 @@ const EditProductPage = () => {
 
   useEffect(() => {
     setModal(true);
-    setModalText(isLoading ? 'Fetching the corresponding product' : updateProductLoading ? 'Updating product...' : 'Deleting product...')
+    setModalInfo({
+      icon: spinner,
+      iconColor: '',
+      text: isLoading ? 'Fetching product...' : updateProductLoading ? 'Updating product...' : deleteProductLoading ? 'Deleting product...' : 'Loading...' 
+    })
   }, [isLoading, updateProductLoading, deleteProductLoading])
 
   useEffect(() => {
@@ -142,12 +160,6 @@ const EditProductPage = () => {
   return (
     <section className='flex-1 p-4 md:p-6'>
         <h2 className=''>Edit Product</h2>
-        {modal && <Modal setModal={setModal}>
-          <div className='p-4 flex gap-2 text-xl items-center '>
-            {modalText.includes('Product successfully') ? <span className='text-green-500'><BsCheckLg /></span> : spinner}
-            {modalText}
-            </div>
-        </Modal>}
         {errMsg && <h4 className='flex bg-red-300 text-red-600 gap-2 items-center font-semibold p-2 my-2 text-lg'>
             <span className='text-xl'><AiFillInfoCircle /></span>
             <p>{errMsg}</p>
