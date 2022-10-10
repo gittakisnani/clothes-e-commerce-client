@@ -7,6 +7,7 @@ import { Product } from '../types/types';
 import { Arrays, spinner } from './AddProductPage';
 import { useDeleteProductMutation, useGetProductMutation, useUpdateProductMutation } from '../feature/productApiSlice';
 import { Props } from '../App';
+import Input from '../components/Input';
 
 
 const initialState = {
@@ -165,35 +166,17 @@ const EditProductPage = ({ setModal, setModalInfo }: Props) => {
             <p>{errMsg}</p>
         </h4>}
         <form onSubmit={handleSubmit} onReset={handleReset} className="flex flex-col gap-2">
-           <label className="flex-col flex gap-2" htmlFor="title">
-              <p className='text-lg font-semibold'>Title:</p>
-              <input 
-                id='title'
-                name='title'
-                title="Product title"
-                type="text" 
-                value={productInfo.title}
-                onChange={handleProductInfoChange}
-                className='p-2'
-            />
+          <Input id='title' type='text' name='title' value={productInfo.title} onChange={handleProductInfoChange} text='Title' title='Product title'>
             <p className='text-gray-600 font-semibold'>You Title Should match the product you're offering.</p>
-           </label>
-           <label className="flex-col flex gap-2 relative" htmlFor="desc">
-           <p className='text-lg font-semibold'>Description:</p>
-              <textarea 
-                id='desc'
-                name='desc'
-                title="Product Description"
-                value={productInfo.desc}
-                onChange={handleProductInfoChange}
-                className='p-2 !min-h-[150px]'
-            />
-
-            <p 
-            style={{color: productInfo.desc.length >= 20 ? 'green' : 'red'}}
-            className='absolute bottom-10 right-6 font-semibold'>{productInfo.desc.length}</p>
-            <p className='text-gray-600 font-semibold'>You Description Should Describe the product you're offering or we will reject your offer.</p>
-           </label>
+           </Input>
+           <Input id='desc' name='desc' value={productInfo.desc} onChange={handleProductInfoChange} text='Description' title='Product Description' className='relative'>
+            <>
+              <p 
+              style={{color: productInfo.desc.length >= 20 ? 'green' : 'red'}}
+              className='absolute bottom-10 right-6 font-semibold'>{productInfo.desc.length}</p>
+              <p className='text-gray-600 font-semibold'>You Description Should Describe the product you're offering or we will reject your offer.</p>
+            </>
+           </Input>
             <div className='flex-col gap-2 flex'>
             <p className='text-lg font-semibold'>Colors:</p>
               <div className='flex gap-2 items-center flex-wrap'>
@@ -220,17 +203,7 @@ const EditProductPage = ({ setModal, setModalInfo }: Props) => {
             <p className='text-lg font-semibold'>Type:</p>
               <div className='flex flex-col gap-1'>
                 {TYPE_FILTERS.map((type, index) => (
-                  <label className='flex gap-2 items-center' key={index} htmlFor={type.replaceAll(' ', '')}>
-                    <input 
-                    id={type.replaceAll(' ', '')}
-                    title={type}
-                    value={type}
-                    type="checkbox" 
-                    checked={productInfo.types.indexOf(type) !== -1}
-                    onChange={() => handleArrays('types', type)}
-                    />
-                    <p className='capitalize'>{type}</p>
-                  </label>
+                  <Input key={index} id={type.replaceAll(' ', '')} title={type} value={type} type='checkbox' checked={productInfo.types.indexOf(type) !== -1} className='!flex-row items-center' text={type} onChange={() => handleArrays('types', type)} />
                 ))}
               </div>
             </div>
@@ -238,17 +211,7 @@ const EditProductPage = ({ setModal, setModalInfo }: Props) => {
             <p className='text-lg font-semibold'>Category:</p>
               <div className='flex flex-col gap-1'>
                 {CATEGORIES.map((category, index) => (
-                  <label className='flex gap-2 items-center' key={index} htmlFor={category.replaceAll(' ', '')}>
-                    <input 
-                    id={category.replaceAll(' ', '')}
-                    title={category}
-                    value={category}
-                    type="checkbox"
-                    checked={productInfo.cats.indexOf(category) !== -1}
-                    onChange={() => handleArrays('cats', category)} 
-                    />
-                    <p className='capitalize'>{category}</p>
-                  </label>
+                  <Input key={index} id={category.replaceAll(' ', '')} title={category} value={category} type='checkbox' checked={productInfo.cats.indexOf(category) !== -1} className='!flex-row items-center' text={category} onChange={() => handleArrays('cats', category)} />
                 ))}
               </div>
             </div>
@@ -256,17 +219,7 @@ const EditProductPage = ({ setModal, setModalInfo }: Props) => {
             <p className='text-lg font-semibold'>Sizes available:</p>
               <div className='flex flex-col gap-1'>
                 {SIZES.map((size, index) => (
-                  <label className='flex gap-2 items-center' key={index} htmlFor={size.replaceAll(' ', '')}>
-                    <input 
-                    id={size.replaceAll(' ', '')}
-                    title={size}
-                    value={size}
-                    type="checkbox" 
-                    checked={productInfo.sizes.indexOf(size) !== -1}
-                    onChange={() => handleArrays('sizes', size)}
-                    />
-                    <p className='uppercase'>{size}</p>
-                  </label>
+                  <Input key={index} id={size.replaceAll(' ', '')} title={size} value={size} type='checkbox' checked={productInfo.sizes.indexOf(size) !== -1} className='!flex-row items-center' onChange={() => handleArrays('sizes', size)} text={size.toUpperCase()} />
                 ))}
               </div>
             </div>
@@ -274,35 +227,12 @@ const EditProductPage = ({ setModal, setModalInfo }: Props) => {
             <p className='text-lg font-semibold'>Gender:</p>
               <div className='flex flex-col gap-1'>
                 {['Woman', 'Man', 'Unisex'].map((gender, index) => (
-                  <label className='flex gap-2 items-center' key={index} htmlFor={gender.replaceAll(' ', '')}>
-                    <input 
-                    id={gender.replaceAll(' ', '')}
-                    title={gender}
-                    value={gender}
-                    type="checkbox"
-                    checked={productInfo.gender === gender}
-                    onChange={handleProductInfoChange}
-                    name='gender'
-                    />
-                    <p className='capitalize'>{gender}</p>
-                  </label>
+                  <Input key={index} id={gender.replaceAll(' ', '')} title={gender} value={gender} text={gender} name='gender' checked={productInfo.gender === gender} onChange={handleProductInfoChange} type='checkbox' className='!flex-row items-center' />
                 ))}
               </div>
             </div>
             </div>
-
-              <label htmlFor="price" className='flex flex-col gap-2'>
-              <p className='text-lg font-semibold'>Price: ($)</p>
-                <input 
-                type="number" 
-                value={productInfo.price}
-                name='price'
-                onChange={handleProductInfoChange}
-                title='Price'
-                className='max-w-[200px] p-2 rounded-md'
-                id='price'
-                />
-              </label>
+              <Input type='number' value={productInfo.price} onChange={handleProductInfoChange} title='Price' className='max-w-[200px]' id='price' name='price' text='Price' />
               <label htmlFor="files" className='flex flex-col gap-2 relative'>
                 <p className='text-lg font-semibold'>
                   Images: <span className='text-gray-500 text-base'>03 Pictures minimum</span></p>
