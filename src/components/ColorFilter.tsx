@@ -2,8 +2,16 @@ import { useState } from "react"
 import { COLORS } from "../config/config";
 import { IoIosArrowUp, IoIosArrowDown} from '../Icons'
 import { handleFilter } from "../utils/filters";
+import { useSelector, useDispatch } from 'react-redux';
+import { getFilters, setFilters } from '../feature/filtersSlice';
 const ColorFilter = () => {
     const [color, setColor] = useState(false);
+    const filters = useSelector(getFilters);
+    const dispatch = useDispatch();
+
+    const handleColorFilter = (value: string) => {
+        dispatch(setFilters({ filter: 'color', value}))
+    }
   return (
     <>
         <div className="flex items-center justify-between">
@@ -25,6 +33,8 @@ const ColorFilter = () => {
                     <input 
                     id={color}
                     type="checkbox" 
+                    checked={filters.color.indexOf(color) !== -1}
+                    onChange={() => handleColorFilter(color)}
                     />
 
                     <div className='flex items-center gap-1'>

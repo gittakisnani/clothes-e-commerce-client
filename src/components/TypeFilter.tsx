@@ -2,8 +2,16 @@ import { useState } from "react"
 import { IoIosArrowUp, IoIosArrowDown} from '../Icons'
 import { handleFilter } from "../utils/filters";
 import { TYPE_FILTERS } from "../config/config";
+import { useSelector, useDispatch } from 'react-redux';
+import { getFilters, setFilters } from '../feature/filtersSlice';
 const TypeFilter = () => {
     const [type, setType] = useState(false);
+    const filters = useSelector(getFilters);
+    const dispatch = useDispatch();
+
+    const handleTypeFilter = (value: string) => {
+        dispatch(setFilters({ filter: 'type', value}))
+    }
   return (
     <>
         <div className="flex items-center justify-between">
@@ -24,7 +32,9 @@ const TypeFilter = () => {
                 >
                     <input 
                     type="checkbox" 
-                    id={typeFilter.toLowerCase()} 
+                    id={typeFilter.toLowerCase()}
+                    checked={filters.type.indexOf(typeFilter) !== -1} 
+                    onChange={() => handleTypeFilter(typeFilter)}
                     />
                     {typeFilter}
                 </label>

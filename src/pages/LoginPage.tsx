@@ -7,7 +7,6 @@ import { useLoginMutation } from '../feature/authApiSlice'
 import { spinner } from './AddProductPage'
 import getGoogleOAuthURL from '../utils/getGoogleUrl'
 import { useDispatch } from 'react-redux'
-import { setCredentials } from '../feature/authSlice'
 import { Props } from '../App'
 
 const LoginPage = ({ setModal, setModalInfo }: Props) => {
@@ -64,7 +63,6 @@ const LoginPage = ({ setModal, setModalInfo }: Props) => {
 
         try {
             const { accessToken, refreshToken} = await login({ password, email }).unwrap();
-            dispatch(setCredentials({ accessToken, refreshToken }))
             setModal(true);
             setModalInfo({
                 text: 'Successfully logged in.',
@@ -73,7 +71,7 @@ const LoginPage = ({ setModal, setModalInfo }: Props) => {
             })
 
 
-            setInterval(() => {
+            setTimeout(() => {
                 setModal(false)
                 setModalInfo({
                     icon: null,

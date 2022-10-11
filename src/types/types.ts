@@ -61,3 +61,12 @@ export interface Product {
 export interface ProductParams {
     productId: string;
 }
+
+
+export interface Filters {
+    type: string[]
+    color: string[]
+    size: string[]
+    minPrice?: number
+    maxPrice?: number
+}

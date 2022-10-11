@@ -25,7 +25,7 @@ const UserMenu = ({ setUserMenu, user, setModal, setModalInfo }: UserMenuProps) 
                 iconColor: 'text-green-500'
             })
 
-            setInterval(() => {
+            setTimeout(() => {
                 setModalInfo({
                     text: '',
                     iconColor: '',
@@ -33,7 +33,7 @@ const UserMenu = ({ setUserMenu, user, setModal, setModalInfo }: UserMenuProps) 
                 });
                 setModal(false);
                 navigate('/login')
-            })
+            }, 1000)
         } catch(err) {
             setModalInfo({
                 text: 'Cannot logout',
@@ -92,7 +92,7 @@ const UserMenu = ({ setUserMenu, user, setModal, setModalInfo }: UserMenuProps) 
         </div>
         </>)
         : (<>
-            <Link to='register'>
+            <Link to='/register'>
             <div onClick={() => setUserMenu(false)} className='duration-200 hover:bg-secondaryLight ease-linear flex items-center gap-2 p-2 cursor-pointer'>
                 <p>Register</p>
             </div>

@@ -85,7 +85,7 @@ const EditProductPage = ({ setModal, setModalInfo }: Props) => {
         icon: <BsCheckLg />,
         iconColor: 'text-green-500'
       })
-      setInterval(() => {
+      setTimeout(() => {
         setModal(false);
         navigate('/')
       }, 3000)
@@ -109,7 +109,7 @@ const EditProductPage = ({ setModal, setModalInfo }: Props) => {
         icon: <BsCheckLg />,
         iconColor: 'text-red-500'
       });
-      setInterval(() => {
+      setTimeout(() => {
         setModal(false);
         setModalInfo({
           text: '',

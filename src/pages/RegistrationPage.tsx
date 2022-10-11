@@ -17,8 +17,6 @@ const RegistrationPage = ({ setModal, setModalInfo }: Props) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errMsg, setErrMsg] = useState('')
-  // const [modalText, setModalText] = useState('')
-  // const [modal, setModal] = useState(false)
   const [agree, setAgree] = useState(false);
 
 
@@ -81,7 +79,7 @@ const RegistrationPage = ({ setModal, setModalInfo }: Props) => {
       })
 
 
-      setInterval(() => {
+      setTimeout(() => {
         setModalInfo({
           text: '',
           iconColor: '',

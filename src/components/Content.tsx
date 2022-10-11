@@ -1,19 +1,19 @@
-import { useState, useEffect } from 'react'
-import { URLSearchParams } from 'url'
+import { useState } from 'react'
 import { SORTS } from '../config/config'
 import { HiOutlineHome, AiOutlineRight, MdSort, BsCheckLg, MdOutlineClose } from '../Icons'
 import { SortsType } from '../types/types'
-import Filter from './Filter'
 import Modal from './Modal'
 import Product from './Product'
 import ProductPage from './ProductPage'
-import { Link,  } from 'react-router-dom'
+import { useSelector } from 'react-redux'
+import { getFilters } from '../feature/filtersSlice'
+import Filter from './Filter'
 
 const Content = () => {
   const [sort, setSort] = useState(false)
   const [sortMethod, setSortMethod] = useState('Most Popular')
   const [modal, setModal] = useState(false) 
-
+  const filters = useSelector(getFilters)
   const onClick= () => setModal(!modal)
 
   const handleChangeSortMethod = (sort: SortsType) => {
@@ -52,9 +52,15 @@ const Content = () => {
         <h2 className='text-2xl mt-4 md:mt-8 font-bold'>Category</h2>
 
         <div className='mt-2 md:mt-4 flex items-center flex-wrap gap-2'>
-            <Filter filter='multicolor' />
-            <Filter filter='multicolor' />
-            <Filter filter='multicolor' />
+            {(filters.type as string[]).map((filter, index) => (
+              <Filter filter={filter} key={index} />
+            ))}
+            {(filters.color as string[]).map((filter, index) => (
+              <Filter filter={filter} key={index} />
+            ))}
+            {(filters.size as string[]).map((filter, index) => (
+              <Filter filter={filter} key={index} />
+            ))}
         </div>
         </div>
         <div

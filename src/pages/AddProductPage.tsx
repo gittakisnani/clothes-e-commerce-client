@@ -16,7 +16,7 @@ const AddProductPage = ({ setModal, setModalInfo }: Props) => {
 
   const fileRef = useRef<HTMLInputElement | null>(null!)
   const errRef = useRef<HTMLHeadingElement | null>(null!)
-  
+  const formRef = useRef<HTMLFormElement | null>(null!)
   const [productInfo, setProductInfo] = useState<Product>({
     title: '',
     desc: '',
@@ -82,16 +82,17 @@ const AddProductPage = ({ setModal, setModalInfo }: Props) => {
     }
 
     try {
-      await createProduct(productInfo).unwrap();
+      const pr = await createProduct(productInfo).unwrap();
+      console.log(pr)
       setModal(true)
       setModalInfo({
         icon: <BsCheckLg />,
         iconColor: 'text-green-500',
         text: 'Product successfully created'
       })
-      setInterval(() => {
+      setTimeout(() => {
         setModal(false);
-        navigate('/')
+        // navigate('/')
       }, 2000)
     } catch(err: any) {
       setErrMsg(err?.data?.message || 'Cannot Create product')
@@ -116,8 +117,7 @@ const AddProductPage = ({ setModal, setModalInfo }: Props) => {
 
 
   useEffect(() => {
-    setErrMsg('')
-    console.log(productInfo)
+    setErrMsg('');
   }, [productInfo])
 
 
@@ -129,7 +129,7 @@ const AddProductPage = ({ setModal, setModalInfo }: Props) => {
             <span className='text-xl'><AiFillInfoCircle /></span>
             <p>{errMsg}</p>
         </h4>}
-        <form onSubmit={handleSubmit} className="flex flex-col gap-2">
+        <form onSubmit={handleSubmit} encType='multipart/form-data' className="flex flex-col gap-2">
            <Input id='title' type='text' name='title' value={productInfo.title} onChange={handleProductInfoChange} text='Title' title='Product title'>
             <p className='text-gray-600 font-semibold'>You Title Should match the product you're offering.</p>
            </Input>
@@ -201,10 +201,10 @@ const AddProductPage = ({ setModal, setModalInfo }: Props) => {
                 <p className='text-lg font-semibold'>Images: <span className='text-gray-500 text-base'>03 Pictures minimum</span></p>
                 <input 
                 ref={fileRef}
-                multiple
                 accept='image/*'
                 onChange={previewFiles}
                 id='files'
+                name='product'
                 type="file" 
                 title='Images'
                 className='file:p-2 file:bg-purplePrimary w-fit file:text-white file:border-none file:cursor-pointer file:rounded-md opacity-0 z-10'

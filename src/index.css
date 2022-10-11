@@ -62,3 +62,7 @@ body {
 .multicolor {
   background-image: linear-gradient(to left, violet, indigo, blue, green, yellow, orange, red);
 }
+
+.filterBar::-webkit-scrollbar {
+  display: none;
+}

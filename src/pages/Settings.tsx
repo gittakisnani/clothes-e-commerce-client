@@ -50,7 +50,7 @@ const Settings = ({ setModal, setModalInfo }: Props) => {
         iconColor: 'text-red-500'
       })
 
-      setInterval(() => {
+      setTimeout(() => {
         setErrMsg('');
         setModal(false);
         navigate('/', { replace: true })
@@ -85,7 +85,7 @@ const Settings = ({ setModal, setModalInfo }: Props) => {
         icon: <BsCheckLg />
       })
 
-      setInterval(() => {
+      setTimeout(() => {
         setErrMsg('');
         setModal(false)
       }, 3000)

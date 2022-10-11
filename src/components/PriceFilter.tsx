@@ -1,12 +1,18 @@
 import { useState } from "react"
+import { useDispatch, useSelector } from "react-redux";
+import { getFilters, setPrices } from "../feature/filtersSlice";
 import { IoIosArrowUp, IoIosArrowDown} from '../Icons'
 import { handleFilter } from "../utils/filters";
 
 
 const PriceFilter = () => {
     const [price, setPrice] = useState(false);
-    const [minPrice, setMinPrice] = useState(0)
-    const [maxPrice, setMaxPrice] = useState(1000)
+    const filters = useSelector(getFilters);
+    const dispatch = useDispatch();
+
+    const handlePriceFilter = (key: 'maxPrice' | 'minPrice',value: number) => {
+        dispatch(setPrices({ key, value}))
+    }
   return (
     <>
         <div className="flex items-center justify-between">
@@ -26,8 +32,8 @@ const PriceFilter = () => {
                 Min:
             <input 
             id='minPrice'
-            value={minPrice}
-            onChange={e => setMinPrice(+e.target.value)}
+            value={filters.minPrice || 0}
+            onChange={(e) => handlePriceFilter('minPrice', Number(e.target.value))}
             className='border border-purplePrimary caret-purplePrimary rounded-md p-2 max-w-full'
             type="number"
             />
@@ -38,8 +44,8 @@ const PriceFilter = () => {
                 Max:
             <input 
             id='maxPrice'
-            value={maxPrice}
-            onChange={e => setMaxPrice(+e.target.value)}
+            value={filters.maxPrice}
+            onChange={e => handlePriceFilter('maxPrice', Number(e.target.value))}
             className='border border-purplePrimary caret-purplePrimary rounded-md p-2 max-w-full'
             type="number" 
             />

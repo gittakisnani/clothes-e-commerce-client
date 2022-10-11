@@ -30,7 +30,7 @@ const HeaderLayout = ({ setModal, setModalInfo }: Props) => {
 
     getUser()
 
-  },[])
+  },[getByd, getMe])
 
   return (
     <>
