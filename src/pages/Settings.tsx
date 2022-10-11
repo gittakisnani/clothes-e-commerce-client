@@ -9,7 +9,6 @@ import { useDeleteMutation, useGetMeMutation, useUpdateMutation, useGetUserByIdM
 import { spinner } from "./AddProductPage"
 import { Props } from "../App"
 
-type LoadUserFN = () => void
 
 const Settings = ({ setModal, setModalInfo }: Props) => {
   const navigate = useNavigate();
@@ -102,7 +101,7 @@ const Settings = ({ setModal, setModalInfo }: Props) => {
 
 
   useEffect(() => {
-    const getUser: LoadUserFN = async () => {
+    const getUser = async () => {
       try {
         const { _id } = await getMe('').unwrap();
         const user = await getByd(_id).unwrap()
@@ -110,6 +109,7 @@ const Settings = ({ setModal, setModalInfo }: Props) => {
         setModal(false);
       } catch(err) {
         navigate('/404')
+        setModal(false)
       }
     }
 

@@ -51,7 +51,7 @@ function App() {
         <Route path="resetcode" element={<ResetCode />} />
         <Route path="newpassword" element={<NewPassword />} />
         <Route path="settings" element={<Settings setModal={setModal} setModalInfo={setModalInfo} />} />
-        <Route element={<HeaderLayout />}>
+        <Route element={<HeaderLayout setModal={setModal} setModalInfo={setModalInfo} />}>
           <Route index element={<Content />} />
           <Route path="product/:id" element={<ProductPage back />} />
           <Route path="product/new" element={<AddProductPage setModal={setModal} setModalInfo={setModalInfo}  />} />
