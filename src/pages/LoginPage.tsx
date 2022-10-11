@@ -10,8 +10,6 @@ import { useDispatch } from 'react-redux'
 import { Props } from '../App'
 
 const LoginPage = ({ setModal, setModalInfo }: Props) => {
-    const dispatch = useDispatch()
-
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [errMsg, setErrMsg] = useState('');
@@ -62,7 +60,7 @@ const LoginPage = ({ setModal, setModalInfo }: Props) => {
 
 
         try {
-            const { accessToken, refreshToken} = await login({ password, email }).unwrap();
+            await login({ password, email }).unwrap();
             setModal(true);
             setModalInfo({
                 text: 'Successfully logged in.',
@@ -91,7 +89,7 @@ const LoginPage = ({ setModal, setModalInfo }: Props) => {
     <section className='min-h-screen grid place-items-center p-4 md:p-6 relative'>
         <div className='w-full max-w-[450px] bg-white'>
             <form onSubmit={handleSubmit} className='border rounded-md p-4 md:p-10 flex-col flex gap-4'>
-                <p className="text-2xl pb-4">Taki<span className="font-bold">Snani</span></p>
+                <Link to='/'><p className="text-2xl pb-4">Taki<span className="font-bold">Snani</span></p></Link>
                 <div>
                     <h1 className=''>Login to your account</h1>
                     <div className='pb-2 flex gap-2 items-center'>Don't have account yet? <Link to='/register'><p className='font-bold text-purplePrimary'>Register</p></Link></div>
