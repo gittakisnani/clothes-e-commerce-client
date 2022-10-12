@@ -2,10 +2,11 @@ import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { Props } from '../App'
 import { useRegisterMutation } from '../feature/authApiSlice'
-import { BsTwitter, AiOutlineGithub, BsFacebook, AiFillInfoCircle, BsCheckLg } from '../Icons'
+import { BsTwitter, AiOutlineGithub, BsGoogle, AiFillInfoCircle, BsCheckLg } from '../Icons'
 import getGoogleOAuthURL from '../utils/getGoogleUrl'
 import { handleMetaTags, setPageTitle } from '../utils/pageUtils'
 import { spinner } from './AddProductPage'
+import { gitOauthLink } from './LoginPage'
 
 const IMAGE = 'https://brand.assets.adidas.com/image/upload/f_auto,q_auto,fl_lossy/enUS/Images/SEO_Forum-Size-Guide_Mastead_Teaser-Carousel_tcm221-919208.jpg'
 
@@ -108,16 +109,13 @@ const RegistrationPage = ({ setModal, setModalInfo }: Props) => {
           <p>{errMsg}</p>
         </h4>}
         <p className='font-semibold opacity-80'>Register with</p>
-        <div className='grid grid-cols-3 gap-2 mt-2'>
-          <button title='Register with Twitter' className={'px-4 py-2 rounded-md border border-primaryLight text-primaryLight grid place-items-center text-xl ' + OAuthHoverClass}>
-            <BsTwitter />
-          </button>
+        <div className='grid grid-cols-2 gap-2 mt-2'>
           <a href={getGoogleOAuthURL()} title='Register with Facebook' className={'px-4 py-2 rounded-md border border-primaryLight text-primaryLight grid place-items-center text-xl ' + OAuthHoverClass}>
-            <BsFacebook />
+            <BsGoogle />
           </a>
-          <button title='Register with Github' className={'px-4 py-2 rounded-md border border-primaryLight text-primaryLight grid place-items-center text-2xl ' +  OAuthHoverClass}>
+          <a href={gitOauthLink} title='Register with Github' className={'px-4 py-2 rounded-md border border-primaryLight text-primaryLight grid place-items-center text-2xl ' +  OAuthHoverClass}>
             <AiOutlineGithub />
-          </button>
+          </a>
         </div>
 
         <p className='uppercase text-sm mx-auto w-fit opacity-60 py-4'>Or continue with</p>

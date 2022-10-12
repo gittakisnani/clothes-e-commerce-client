@@ -1,13 +1,18 @@
 import { useEffect, useState } from 'react'
-import { BsTwitter, AiOutlineGithub, BsFacebook, AiFillInfoCircle, BsCheckLg } from '../Icons'
+import { AiOutlineGithub, BsGoogle, AiFillInfoCircle, BsCheckLg } from '../Icons'
 import { handleMetaTags, setPageTitle } from '../utils/pageUtils'
 import { OAuthHoverClass } from './RegistrationPage'
 import { Link, useNavigate } from 'react-router-dom'
 import { useLoginMutation } from '../feature/authApiSlice'
 import { spinner } from './AddProductPage'
 import getGoogleOAuthURL from '../utils/getGoogleUrl'
-import { useDispatch } from 'react-redux'
-import { Props } from '../App'
+import { Props } from '../App';
+
+const gitClientId = process.env.REACT_APP_GIT_CLIENT as string;
+const uri = process.env.REACT_APP_GIT_REDIRECT_URI as string;
+const path = '/';
+export const gitOauthLink=`https://github.com/login/oauth/authorize?client_id=${gitClientId}&redirect_uri=${uri}?path=${path}&scope=user:email`
+
 
 const LoginPage = ({ setModal, setModalInfo }: Props) => {
     const [email, setEmail] = useState('');
@@ -132,16 +137,13 @@ const LoginPage = ({ setModal, setModalInfo }: Props) => {
 
                 <p className='w-fit mx-auto text-sm uppercase'>Or continue with</p>
 
-                <div className='grid grid-cols-3 gap-2 mt-2'>
-                    <button title='Login with Twitter' className={'px-4 py-2 rounded-md border border-primaryLight text-primaryLight grid place-items-center text-xl ' + OAuthHoverClass}>
-                        <BsTwitter />
-                    </button>
+                <div className='grid grid-cols-2 gap-2 mt-2'>
                     <a href={getGoogleOAuthURL()} title='Login with Facebook' className={'px-4 py-2 rounded-md border border-primaryLight text-primaryLight grid place-items-center text-xl ' + OAuthHoverClass}>
-                        <BsFacebook />
+                        <BsGoogle />
                     </a>
-                    <button title='Login with Github' className={'px-4 py-2 rounded-md border border-primaryLight text-primaryLight grid place-items-center text-2xl ' +  OAuthHoverClass}>
+                    <a href={gitOauthLink} title='Login with Github' className={'px-4 py-2 rounded-md border border-primaryLight text-primaryLight grid place-items-center text-2xl ' +  OAuthHoverClass}>
                         <AiOutlineGithub />
-                    </button>
+                    </a>
                 </div>
             </form>
         </div>

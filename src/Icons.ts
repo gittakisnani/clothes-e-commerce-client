@@ -1,5 +1,5 @@
 export { RiSearchLine } from 'react-icons/ri';
-export { BsCommand, BsCheckLg, BsCheckAll, BsFacebook, BsTwitter } from 'react-icons/bs';
+export { BsCommand, BsCheckLg, BsCheckAll, BsGoogle, BsTwitter } from 'react-icons/bs';
 export { MdLanguage, MdSort, MdOutlineClose, MdOutlineLocalShipping, MdAddCircleOutline } from 'react-icons/md';
 export { AiOutlineHeart, AiFillHeart, AiOutlineRight, AiFillStar, AiOutlineMenu, AiOutlineFilter, AiOutlineGithub, AiFillInfoCircle } from 'react-icons/ai';
 export { TbShoppingCart } from 'react-icons/tb'

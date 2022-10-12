@@ -65,18 +65,18 @@ const Content = () => {
         </div>
         <div
         onClick={() => setSort(!sort)}
-        className='bg-secondaryLight self-end md:self-auto p-3 text-primaryLight rounded-md flex items-center justify-between gap-4 relative w-[240px]'>
+        className='bg-secondaryLight self-end md:self-auto p-3 text-black/50 rounded-md flex items-center justify-between gap-4 relative w-[240px]'>
             Sort by: {sortMethod}
 
             <span className='text-xl'><MdSort /></span>
 
             {sort && 
-            <div className='absolute z-10 w-full left-0 top-[100%] my-2 bg-secondaryLight flex flex-col gap-1 p-2 text-primaryLight'>
+            <div className='absolute z-10 w-full left-0 top-[100%] my-2 bg-secondaryLight flex flex-col gap-1 p-4 text-primaryLight shadow-2xl'>
                 {SORTS.map((sort, index) => (
                   <div 
                   key={index}
                   onClick={() => handleChangeSortMethod(sort)}
-                  className='flex items-center justify-between gap-2 cursor-pointer'>
+                  className='flex items-center justify-between gap-2 cursor-pointer text-black'>
                       <p>{sort}</p>
                       {sortMethod === sort && <span><BsCheckLg /></span>}
                   </div>

@@ -83,7 +83,6 @@ const AddProductPage = ({ setModal, setModalInfo }: Props) => {
 
     try {
       const pr = await createProduct(productInfo).unwrap();
-      console.log(pr)
       setModal(true)
       setModalInfo({
         icon: <BsCheckLg />,

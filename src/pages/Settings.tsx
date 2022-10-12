@@ -66,7 +66,6 @@ const Settings = ({ setModal, setModalInfo }: Props) => {
 
   const handleSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault()
-    console.log(userInfo)
 
     if(!Object.values(userInfo).every(vl => Boolean(vl))) {
       setErrMsg('All fields are required.');
