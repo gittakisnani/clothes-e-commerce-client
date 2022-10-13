@@ -18,7 +18,7 @@ const Settings = ({ setModal, setModalInfo }: Props) => {
     phone: '',
     country: '',
     lang: '',
-    url: '',
+    url: 'Arabic',
     about: '',
     email: '',
     _id: ''
@@ -127,9 +127,16 @@ const Settings = ({ setModal, setModalInfo }: Props) => {
     setModalInfo({
       icon: spinner,
       iconColor: '',
-      text: isLoading ? 'Updating user infos...' : loadUserLoading ? 'Loading user infos...' : deleteUserLoading ? 'Deleting user...' : 'Loading....'
+      text: isLoading ? 'Updating user infos...' : loadUserLoading || getByIdLoading ? 'Loading user infos...' : deleteUserLoading ? 'Deleting user...' : 'Loading....'
     })
-  }, [isLoading, loadUserLoading, deleteUserLoading])
+  }, [isLoading, loadUserLoading, deleteUserLoading, getByIdLoading]);
+
+
+  //Set the phone number code when we change the country;
+  useEffect(() => {
+    const country = COUNTRIES.find(cn => Object.values(cn)[0].name === userInfo.country) || { 'DZ': {'name': 'Country','code': 'Code'} };
+    setUserInfo(prev => ({...prev, phone: `+${Object.values(country as object)[0].code}`}))
+  }, [userInfo.country])
 
   return (
     <>
@@ -231,9 +238,9 @@ const Settings = ({ setModal, setModalInfo }: Props) => {
               onChange={handleChange}
               >
                 {COUNTRIES.map((cn, index) => (
-                  <option className="flex gap-2 items-center" key={index} value={Object.values(cn)[0].name}>
-                    {Object.values(cn)[0].name}
-                  </option>
+                    <option className="flex gap-2 items-center" key={index} value={Object.values(cn)[0].name}>
+                      {Object.values(cn)[0].name}
+                    </option>
                 ))}
               </select>
             </label>
