@@ -44,12 +44,12 @@ const Content = () => {
                 <span><AiOutlineRight /></span>
                 <p>Category</p>
                 <span><AiOutlineRight /></span>
-                <p>Category Selected</p>
+                <p>{filters.cat || 'All products'}</p>
             </div>
         </div>
         <div className='flex flex-col gap-3 md:flex-row md:items-center md:justify-between'>
         <div>
-        <h2 className='text-2xl mt-4 md:mt-8 font-bold'>Category</h2>
+        <h2 className='text-2xl mt-4 md:mt-8 font-bold'>{filters.cat || 'All products'}: {filters.search}</h2>
 
         <div className='mt-2 md:mt-4 flex items-center flex-wrap gap-2'>
             {(filters.type as string[]).map((filter, index) => (

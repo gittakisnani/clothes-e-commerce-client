@@ -1,6 +1,8 @@
 import { useRef, useState } from 'react'
 import useWindowSize from '../hooks/useWindowSize'
 import { RiSearchLine, MdOutlineClose, AiOutlineFilter } from '../Icons'
+import { useDispatch } from 'react-redux'
+import { setSearch as setSearchText } from '../feature/filtersSlice'
 
 type SearchBarProps = {
     onBlur: () => void
@@ -8,11 +10,21 @@ type SearchBarProps = {
 }
 
 const SearchBar = ({ onBlur, setFilters } : SearchBarProps) => {
+    const dispatch = useDispatch();
+
     const formRef = useRef<HTMLFormElement | null>(null)
     const [search, setSearch] = useState('')
-    const handleClearSearch = () => setSearch('');
+    const handleClearSearch = () => {
+        setSearch('');
+        dispatch(setSearchText(''))
+    };
     const { width } = useWindowSize()
 
+
+    const handleSearchText = (e: any) => {
+        setSearch(e.target.value);
+        dispatch(setSearchText(e.target.value))
+    }
   return (
     <form ref={formRef} className="p-2 rounded-md flex items-center gap-2 bg-secondaryLight w-full md:max-w-[340px] md:focus-within:max-w-[480px] duration-300 ease-in-out mx-auto">
         <button className="text-primaryLight text-xl" title="Search">
@@ -22,7 +34,7 @@ const SearchBar = ({ onBlur, setFilters } : SearchBarProps) => {
             <input 
             onBlur={onBlur}
             value={search}
-            onChange={e => setSearch(e.target.value)}
+            onChange={handleSearchText}
             type="text"
             placeholder="Search among 100+ products"
             className="p-1 flex-1 !border-none"

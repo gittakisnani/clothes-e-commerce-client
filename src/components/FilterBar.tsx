@@ -7,11 +7,18 @@ import ColorFilter from './ColorFilter';
 import SizeFilter from './SizeFilter';
 import PriceFilter from './PriceFilter';
 import { useDispatch } from 'react-redux';
-import { deleteAllFilters } from '../feature/filtersSlice';
-
+import { deleteAllFilters, getFilters } from '../feature/filtersSlice';
+import { setCat } from '../feature/filtersSlice';
+import { useSelector } from 'react-redux';
+import { CATEGORIES as CATS } from '../types/types';
 const FilterBar = ({ setFilters } : { setFilters?: (value: boolean) => void}) => {
     const { width } = useWindowSize()
     const dispatch = useDispatch();
+    const filters = useSelector(getFilters);
+
+    const handleCat = (cat: CATS[number]) => {
+        dispatch(setCat(cat))
+    }
 
     const handleDeleteAllFilters = () => dispatch(deleteAllFilters())
   return (
@@ -29,7 +36,8 @@ const FilterBar = ({ setFilters } : { setFilters?: (value: boolean) => void}) =>
             <ul className="pl-6 mt-2 flex flex-col gap-2">
                 {CATEGORIES.map((cat, index) => (
                     <li 
-                    className="text-black/60 font-semibold hover:text-purplePrimary duration-300 ease-out transition-all cursor-pointer"
+                    onClick={() => handleCat(cat as CATS[number])}
+                    className={`${filters.cat === cat ? 'text-purplePrimary' : 'text-black-50'} font-semibold hover:text-purplePrimary duration-300 ease-out transition-all cursor-pointer`}
                     key={index}
                     >
                         {cat}

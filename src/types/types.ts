@@ -5,6 +5,8 @@ export interface WindowSizeInterface {
     height: number | undefined
 }
 
+export type CATEGORIES = ['T-Shirt', 'Sweatshirt', 'Dress', 'Pants and skirt', 'Swimsuit', 'Stuff & Accessories']
+
 export type SortsType = 'Most Popular' | 'Newest' | 'Price [Low - High]' | 'Price [High - Low]'
 
 export interface modalInterface {
@@ -69,4 +71,6 @@ export interface Filters {
     size: string[]
     minPrice?: number
     maxPrice?: number
+    cat?: string
+    search?: string
 }
