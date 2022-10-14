@@ -1,4 +1,4 @@
-import {  IoEarthOutline, AiOutlineHeart, TbShoppingCart, FaUser, RiSearchLine, MdOutlineClose } from "../Icons"
+import { AiOutlineHeart, TbShoppingCart, FaUser, RiSearchLine, MdOutlineClose } from "../Icons"
 import { useEffect, useState } from 'react'
 import Logo from "./Logo";
 import UserMenu from "./UserMenu";
@@ -47,12 +47,6 @@ const Header = ({ setFilters, user, setModal, setModalInfo } : HeaderProps) => {
                 </div>
                 {(width! >=  1024 || !searchBar) &&  <div className="flex justify-end items-center gap-4">
                     {width! >= 1024 && user && <>
-                        <button
-                        title="Language"
-                        className="flex items-center gap-1 text-primaryLight">
-                            <p>ENG</p>
-                            <IoEarthOutline size={'20px'} />
-                        </button>
                         <button 
                         className="p-2 flex items-center gap-1 justify-center bg-purpleSecondary text-purplePrimary rounded-md">
                             <p className="font-semibold">Whishlist</p>

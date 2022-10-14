@@ -42,7 +42,7 @@ const Product = ({ onClick } : { onClick?: () => void }) => {
       <button
       ref={likeButtonRef}
       onClick={likeButtonClicked}
-      className='absolute top-4 right-4 text-2xl text-purplePrimary'
+      className='absolute top-4 right-4 text-2xl text-purplePrimary active:scale-[1.4] duration-300 ease-linear'
       title='Like | Unlike product'>
         {liked ? <AiFillHeart /> : <AiOutlineHeart/>}
       </button>

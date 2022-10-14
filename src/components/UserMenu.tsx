@@ -68,10 +68,6 @@ const UserMenu = ({ setUserMenu, user, setModal, setModalInfo }: UserMenuProps) 
                 <span><TbShoppingCart /></span>
                 <p>My Shopping cart</p>
             </div>
-            <div onClick={() => setUserMenu(false)} className='duration-200 hover:bg-secondaryLight ease-linear flex items-center gap-2 p-2 cursor-pointer'>
-                <span><GrLanguage /></span>
-                <p>Language</p>
-            </div>
         </>
         }
         <Link to='/product/new'>
