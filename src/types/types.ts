@@ -39,6 +39,21 @@ export interface UpdateUserInput {
     password: string,
 }
 
+export interface User {
+    _id:       string;
+    email:     string;
+    firstName: string;
+    lastName:  string;
+    about:     string;
+    url:       string;
+    phone:     string;
+    country:   string;
+    lang:      string;
+    createdAt: Date;
+    updatedAt: Date;
+    session:   string;
+}
+
 export interface UpdateUserParams {
     userId: string
 }

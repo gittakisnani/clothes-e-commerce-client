@@ -2,11 +2,18 @@ import { useEffect, useState } from 'react'
 import { AiOutlineGithub, BsGoogle, AiFillInfoCircle, BsCheckLg } from '../Icons'
 import { handleMetaTags, setPageTitle } from '../utils/pageUtils'
 import { OAuthHoverClass } from './RegistrationPage'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { useLoginMutation } from '../feature/authApiSlice'
 import { spinner } from './AddProductPage'
 import getGoogleOAuthURL from '../utils/getGoogleUrl'
 import { Props } from '../App';
+
+
+interface LocationState {
+    from: {
+      pathname: string;
+    };
+}
 
 const gitClientId = process.env.REACT_APP_GIT_CLIENT as string;
 const uri = process.env.REACT_APP_GIT_REDIRECT_URI as string;
@@ -18,7 +25,12 @@ const LoginPage = ({ setModal, setModalInfo }: Props) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [errMsg, setErrMsg] = useState('');
+    const [persist, setPersist] = useState(true)
     const navigate = useNavigate()
+    const location = useLocation();
+    //@ts-ignore
+    const from = (location.state as LocationState)?.from.pathname || '/'
+    const handlePersist = () => setPersist(!persist)
 
     const [login, { isLoading }] = useLoginMutation()
 
@@ -81,7 +93,7 @@ const LoginPage = ({ setModal, setModalInfo }: Props) => {
                     iconColor: '',
                     text: ''
                 })
-                navigate('/')
+                navigate(from, { replace: true })
             }, 2000)
         } catch(err: any) {
             setModal(false)
@@ -127,6 +139,8 @@ const LoginPage = ({ setModal, setModalInfo }: Props) => {
                         type="checkbox" 
                         className='accent-purplePrimary'
                         id='persist'
+                        checked={persist}
+                        onChange={handlePersist}
                     />
                     Remember me
                     </label>

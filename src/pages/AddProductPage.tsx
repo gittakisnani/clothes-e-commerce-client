@@ -7,16 +7,15 @@ import { IoTrashBinOutline, AiFillInfoCircle, BsCheckLg } from '../Icons'
 import { Product } from '../types/types';
 import { handleMetaTags, setPageTitle } from '../utils/pageUtils';
 import Input from '../components/Input';
+import { useGetMeMutation } from '../feature/userApiSlice';
 export const spinner = <div className="w-12 h-12 border-4 border-dashed rounded-full animate-spin dark:border-violet-400"></div>
 
 export type Arrays = 'colors' | 'images' | 'sizes' | 'types' | 'cats' 
 
 const AddProductPage = ({ setModal, setModalInfo }: Props) => {
   const navigate = useNavigate()
-
   const fileRef = useRef<HTMLInputElement | null>(null!)
   const errRef = useRef<HTMLHeadingElement | null>(null!)
-  const formRef = useRef<HTMLFormElement | null>(null!)
   const [productInfo, setProductInfo] = useState<Product>({
     title: '',
     desc: '',
@@ -29,6 +28,7 @@ const AddProductPage = ({ setModal, setModalInfo }: Props) => {
     sizes: []
   })
   const [createProduct, { isLoading }] = useCreateProductMutation();
+  const [getMe] = useGetMeMutation()
   const [errMsg, setErrMsg] = useState('');
   
 
@@ -82,7 +82,7 @@ const AddProductPage = ({ setModal, setModalInfo }: Props) => {
     }
 
     try {
-      const pr = await createProduct(productInfo).unwrap();
+      await createProduct(productInfo).unwrap();
       setModal(true)
       setModalInfo({
         icon: <BsCheckLg />,
@@ -101,6 +101,18 @@ const AddProductPage = ({ setModal, setModalInfo }: Props) => {
 
 
   useEffect(() => {
+    //Checking if user is logged in;
+    const checkUser = async () => {
+      try {
+        await getMe('').unwrap();
+      } catch(err) {
+        navigate('/login', { replace: true })
+      }
+    }
+
+    checkUser()
+
+
     setPageTitle('New Product Page')
     handleMetaTags('Add new product page', 'With this page sellers can add their products and offer them to buyers')
   },[])

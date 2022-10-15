@@ -3,25 +3,20 @@ import { useState, useEffect } from 'react'
 import useWindowSize from '../hooks/useWindowSize';
 import Header from './Header';
 import FilterBar from './FilterBar';
-import { useGetMeMutation, useGetUserByIdMutation } from '../feature/userApiSlice';
 import { Props } from '../App';
+import { useGetMeMutation } from '../feature/userApiSlice';
 
 const HeaderLayout = ({ setModal, setModalInfo }: Props) => {
   const [filters, setFilters] = useState(false)
-  const [user, setUser] = useState(false)
   const { width } = useWindowSize();
-  const [getMe] = useGetMeMutation();
-  const [getByd] = useGetUserByIdMutation()
+  const [user, setUser] = useState(false);
+  const [getMe] = useGetMeMutation()  
 
-  useEffect(() => {
-    setFilters(width! >= 1024 ? true : filters)
-  }, [width])
 
   useEffect(() => {
     const getUser = async () => {
       try {
-        const { _id } = await getMe('').unwrap();
-        await getByd(_id).unwrap();
+        await getMe('').unwrap();
         setUser(true)
       } catch(err) {
         console.error(err)
@@ -30,7 +25,12 @@ const HeaderLayout = ({ setModal, setModalInfo }: Props) => {
 
     getUser()
 
-  },[getByd, getMe])
+  },[])
+
+
+  useEffect(() => {
+    setFilters(width! >= 1024 ? true : filters)
+  }, [width])
 
   return (
     <>

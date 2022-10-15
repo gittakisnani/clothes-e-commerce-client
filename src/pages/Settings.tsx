@@ -102,8 +102,7 @@ const Settings = ({ setModal, setModalInfo }: Props) => {
   useEffect(() => {
     const getUser = async () => {
       try {
-        const { _id } = await getMe('').unwrap();
-        const user = await getByd(_id).unwrap()
+        const user = await getMe('').unwrap();
         setUserInfo(user)
         setModal(false);
       } catch(err) {

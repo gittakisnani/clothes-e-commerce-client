@@ -2,7 +2,7 @@ import Content from "./components/Content";
 import ProductPage from "./components/ProductPage";
 import LoginPage from "./pages/LoginPage";
 import RegistrationPage from "./pages/RegistrationPage";
-import { Routes, Route, Navigate } from 'react-router-dom'
+import { Routes, Route, useLocation } from 'react-router-dom'
 import Layout from "./components/Layout";
 import HeaderLayout from "./components/HeaderLayout";
 import AddProductPage from "./pages/AddProductPage";
@@ -34,6 +34,7 @@ function App() {
     text: '',
     iconColor: ''
   })
+
   return (
     <>
     {modal && <Modal setModal={setModal}>

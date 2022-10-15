@@ -7,6 +7,8 @@ import SearchBar from "./SearchBar";
 import Container from "./Conteiner";
 import { Link } from 'react-router-dom'
 import { Props } from "../App";
+
+
 type HeaderProps = {
     setFilters: (value: boolean) => void
     user: boolean
