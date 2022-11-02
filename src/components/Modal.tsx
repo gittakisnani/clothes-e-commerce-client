@@ -1,14 +1,23 @@
-import { useRef } from 'react'
+import { useRef, useEffect } from 'react'
 import { Dialog } from '@headlessui/react'
 import { modalInterface } from '../types/types'
+import { useNavigate } from 'react-router-dom'
+export default function Modal({ children, setModal } : modalInterface) {
+  const overlayRef = useRef<HTMLDivElement | null>(null);
+  const navigate = useNavigate();
 
-export default function Modal({ setModal, children } : modalInterface) {
-  const overlayRef = useRef<HTMLDivElement | null>(null)
+  const handleOnClose = () => {
+    if(typeof setModal === 'function') return setModal(false);
+    navigate(-1)
+  }
+
+
+  
   return (
     <Dialog
       static
       open={true}
-      onClose={() => setModal(false)}
+      onClose={handleOnClose}
       initialFocus={overlayRef}
       className="fixed inset-0 z-[100] flex items-center justify-center"
     >

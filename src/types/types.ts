@@ -10,7 +10,7 @@ export type CATEGORIES = ['T-Shirt', 'Sweatshirt', 'Dress', 'Pants and skirt', '
 export type SortsType = 'Most Popular' | 'Newest' | 'Price [Low - High]' | 'Price [High - Low]'
 
 export interface modalInterface {
-    setModal: (value: boolean) => void
+    setModal?: (value: boolean) => void
     children?: ReactNode
 }
 

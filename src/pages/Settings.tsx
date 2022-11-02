@@ -5,7 +5,7 @@ import { HiOutlineHome, BsCheckLg} from '../Icons'
 import { handleMetaTags, setPageTitle } from "../utils/pageUtils"
 import { UserInfo } from "../types/types"
 import { AiFillInfoCircle } from '../Icons'
-import { useDeleteMutation, useGetMeMutation, useUpdateMutation, useGetUserByIdMutation } from "../feature/userApiSlice"
+import { useDeleteMutation, useGetMeQuery, useUpdateMutation } from "../feature/userApiSlice"
 import { spinner } from "./AddProductPage"
 import { Props } from "../App"
 
@@ -25,8 +25,7 @@ const Settings = ({ setModal, setModalInfo }: Props) => {
   })
   const [errMsg, setErrMsg] = useState('')
   const [update, { isLoading }] = useUpdateMutation();
-  const [getMe, { isLoading: loadUserLoading}] = useGetMeMutation();
-  const [getByd, { isLoading: getByIdLoading }] = useGetUserByIdMutation()
+  const { data: me, isLoading: loadUserLoading} = useGetMeQuery();
   const [deleteUser, { isLoading: deleteUserLoading }] = useDeleteMutation()
 
 
@@ -100,15 +99,11 @@ const Settings = ({ setModal, setModalInfo }: Props) => {
 
 
   useEffect(() => {
-    const getUser = async () => {
-      try {
-        const user = await getMe('').unwrap();
-        setUserInfo(user)
-        setModal(false);
-      } catch(err) {
-        navigate('/404')
-        setModal(false)
-      }
+    const getUser = () => {
+      setModal(false)
+      if(!me) return navigate('/404');
+
+      setUserInfo(me)
     }
 
     getUser()
@@ -126,9 +121,9 @@ const Settings = ({ setModal, setModalInfo }: Props) => {
     setModalInfo({
       icon: spinner,
       iconColor: '',
-      text: isLoading ? 'Updating user infos...' : loadUserLoading || getByIdLoading ? 'Loading user infos...' : deleteUserLoading ? 'Deleting user...' : 'Loading....'
+      text: isLoading ? 'Updating user infos...' : loadUserLoading ? 'Loading user infos...' : deleteUserLoading ? 'Deleting user...' : 'Loading....'
     })
-  }, [isLoading, loadUserLoading, deleteUserLoading, getByIdLoading]);
+  }, [isLoading, loadUserLoading, deleteUserLoading]);
 
 
   //Set the phone number code when we change the country;

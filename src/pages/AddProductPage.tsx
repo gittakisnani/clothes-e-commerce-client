@@ -7,7 +7,7 @@ import { IoTrashBinOutline, AiFillInfoCircle, BsCheckLg } from '../Icons'
 import { Product } from '../types/types';
 import { handleMetaTags, setPageTitle } from '../utils/pageUtils';
 import Input from '../components/Input';
-import { useGetMeMutation } from '../feature/userApiSlice';
+import { useGetMeQuery } from '../feature/userApiSlice';
 export const spinner = <div className="w-12 h-12 border-4 border-dashed rounded-full animate-spin dark:border-violet-400"></div>
 
 export type Arrays = 'colors' | 'images' | 'sizes' | 'types' | 'cats' 
@@ -28,7 +28,7 @@ const AddProductPage = ({ setModal, setModalInfo }: Props) => {
     sizes: []
   })
   const [createProduct, { isLoading }] = useCreateProductMutation();
-  const [getMe] = useGetMeMutation()
+  const { data: me } = useGetMeQuery()
   const [errMsg, setErrMsg] = useState('');
   
 
@@ -82,7 +82,9 @@ const AddProductPage = ({ setModal, setModalInfo }: Props) => {
     }
 
     try {
-      await createProduct(productInfo).unwrap();
+      const formData = new FormData();
+      formData.append('product', fileRef.current!.files![0] as File)
+      await createProduct({...productInfo, images: ['/'], }).unwrap();
       setModal(true)
       setModalInfo({
         icon: <BsCheckLg />,
@@ -101,17 +103,7 @@ const AddProductPage = ({ setModal, setModalInfo }: Props) => {
 
 
   useEffect(() => {
-    //Checking if user is logged in;
-    const checkUser = async () => {
-      try {
-        await getMe('').unwrap();
-      } catch(err) {
-        navigate('/login', { replace: true })
-      }
-    }
-
-    checkUser()
-
+    if(!me) return navigate('/login', { replace: true })
 
     setPageTitle('New Product Page')
     handleMetaTags('Add new product page', 'With this page sellers can add their products and offer them to buyers')
@@ -133,6 +125,8 @@ const AddProductPage = ({ setModal, setModalInfo }: Props) => {
 
 
 
+
+
   return (
     <section className='flex-1 p-4 md:p-6'>
         <h2 ref={errRef} className=''>Post New Product</h2>
@@ -140,7 +134,7 @@ const AddProductPage = ({ setModal, setModalInfo }: Props) => {
             <span className='text-xl'><AiFillInfoCircle /></span>
             <p>{errMsg}</p>
         </h4>}
-        <form onSubmit={handleSubmit} encType='multipart/form-data' className="flex flex-col gap-2">
+        <form onSubmit={handleSubmit} method='post' action='http://localhost:1337/product/new' encType='multipart/form-data' className="flex flex-col gap-2">
            <Input id='title' type='text' name='title' value={productInfo.title} onChange={handleProductInfoChange} text='Title' title='Product title'>
             <p className='text-gray-600 font-semibold'>You Title Should match the product you're offering.</p>
            </Input>
@@ -226,6 +220,8 @@ const AddProductPage = ({ setModal, setModalInfo }: Props) => {
                 >   
                     Add Pictures
                 </button>
+
+
               </label>
 
               {productInfo.images.length >= 0  && <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2'>

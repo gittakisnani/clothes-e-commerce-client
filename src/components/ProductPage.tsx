@@ -74,7 +74,7 @@ const ProductPage = ({ back = false } : { back?: boolean}) => {
                     <img src="https://assets.adidas.com/images/h_840,f_auto,q_auto,fl_lossy,c_fill,g_auto/7d5d36a32fd24b6e8c27aeb000432b4b_9366/Stadium_Fleece_Badge_of_Sport_Hoodie_White_HU1522_21_model.jpg" alt="" />
                 </div>}
             </div>
-            <ul className='bg-white border list-none mx-auto w-full md:w-[80%] mt-10 p-10 flex gap-2 justify-center items-center flex-wrap sticky bottom-2 z-10'>
+            <ul className='bg-gray-100 border border-black/40 list-none mx-auto w-full md:w-[80%] mt-10 p-10 flex gap-2 justify-center items-center flex-wrap sticky bottom-2 z-10'>
                 {Object.values(COLORS).map((color, index) => (
                     <Link key={index} to='/'>
                         <li 
@@ -96,17 +96,17 @@ const ProductPage = ({ back = false } : { back?: boolean}) => {
            <div className='p-4'>
                 <h3 className='uppercase pb-4 font-bold'>You may also like</h3>
                 <div className='grid grid-cols-1 sm:grid-cols-2 gap-2'>
-                    <Product />
-                    <Product />
-                    <Product />
+                    {Array(10).fill('1').map((el, index) => (
+                        <Product id={index} key={index} />
+                    ))}
                 </div>
            </div>
            <div className='p-4'>
                 <h3 className='uppercase pb-4 font-bold'>Recently viewed</h3>
                 <div className='grid grid-cols-1 sm:grid-cols-2 gap-2'>
-                    <Product />
-                    <Product />
-                    <Product />
+                    {Array(10).fill('1').map((el, index) => (
+                        <Product id={index} key={index} />
+                    ))}
                 </div>
            </div>
         </div>

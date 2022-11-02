@@ -1,4 +1,4 @@
-import { TbShoppingCart, AiOutlineHeart, BsCheckAll} from '../Icons'
+import { TbShoppingCart, AiOutlineHeart, BsCheckAll, AiFillHeart} from '../Icons'
 import { useState } from 'react'
 import SmallModal from './SmallModel';
 
@@ -6,9 +6,11 @@ import SmallModal from './SmallModel';
 const ActionsProductPage = () => {
     const [open, setOpen] = useState(false)
     const [smallModelText, setSmallModelText] = useState('');
+    const [liked, setLiked] = useState(false)
 
     const likeButtonClicked = () => {
-        setSmallModelText('Product added successfully to your wishlist!');
+        setLiked(!liked)
+        setSmallModelText(`Product ${liked ? 'removed' : 'added'} successfully ${liked ? 'from' : 'to'} your wishlist!`);
         setOpen(true)
     }
     
@@ -36,8 +38,8 @@ const ActionsProductPage = () => {
         </div>
         <button 
             onClick={likeButtonClicked}
-            className='border border-primaryLight p-3 self-stretch text-xl'>
-            <AiOutlineHeart />
+            className='border border-primaryLight p-3 self-stretch text-xl text-purplePrimary'>
+            {liked ? <AiFillHeart /> : <AiOutlineHeart />}
         </button>
     </div>
   )

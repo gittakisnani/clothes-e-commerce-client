@@ -2,7 +2,7 @@ import Content from "./components/Content";
 import ProductPage from "./components/ProductPage";
 import LoginPage from "./pages/LoginPage";
 import RegistrationPage from "./pages/RegistrationPage";
-import { Routes, Route, useLocation } from 'react-router-dom'
+import { Routes, Route, useSearchParams } from 'react-router-dom'
 import Layout from "./components/Layout";
 import HeaderLayout from "./components/HeaderLayout";
 import AddProductPage from "./pages/AddProductPage";
@@ -14,6 +14,7 @@ import NotFound from "./pages/NotFound";
 import Settings from "./pages/Settings";
 import { useState } from 'react'
 import Modal from "./components/Modal";
+import ProductModel from "./components/ProductModel";
 
 export interface ModalState {
   icon: React.ReactElement | null
@@ -29,6 +30,7 @@ export interface Props {
 
 function App() {
   const [modal, setModal] = useState(false);
+  const [searchParams, setSearchParams] = useSearchParams()
   const [modalInfo, setModalInfo] = useState<ModalState>({
     icon: null,
     text: '',
@@ -43,6 +45,9 @@ function App() {
           {modalInfo.text}
         </div>
     </Modal>}
+
+    {searchParams.has('product') && <ProductModel />}
+
     <Routes>
       <Route path="/" element={<Layout />}>
         {/* Public Routes */}

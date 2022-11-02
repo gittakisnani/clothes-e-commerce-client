@@ -11,7 +11,7 @@ export const authApiSlice = apiSlice.injectEndpoints({
             body: {
                 ...creds
             }
-        })
+        }),
     }),
     login: builder.mutation({
         query: (creds: LoginInput) => ({
@@ -20,13 +20,13 @@ export const authApiSlice = apiSlice.injectEndpoints({
             body: {
                 ...creds
             }
-        })
+        }),
     }),
     logout: builder.mutation({
         query: () => ({
             url: '/logout',
             method: 'GET'
-        })
+        }),
     })
    })
 })

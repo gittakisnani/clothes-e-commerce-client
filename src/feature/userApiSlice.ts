@@ -1,37 +1,35 @@
 import { apiSlice } from "../app/api/apiSlice";
-import { UpdateUserInput, UpdateUserParams } from "../types/types";
+import { UpdateUserInput, UpdateUserParams, User } from "../types/types";
 
 interface DeleteUserParams extends UpdateUserParams{}
 
 
 const userApiSlice = apiSlice.injectEndpoints({
     endpoints: builder => ({
-        getUserById: builder.mutation({
-            query: (userId: string) => ({
-                url: `/users/${userId}`,
-                method: 'GET',
-            })
+        getUserById: builder.query<User, string>({
+            query: (userId) => `/users/${userId}`,
+            providesTags: [{ type: 'Users' }]
         }),
-        update: builder.mutation({
-            query: ({ updates, params }: { updates: Partial<UpdateUserInput>, params: UpdateUserParams}) => ({
+        update: builder.mutation<User, { updates: Partial<UpdateUserInput>, params: UpdateUserParams}>({
+            query: ({ updates, params }) => ({
                 url: `/users/${params.userId}`,
                 method: 'PUT',
                 body: {
                     ...updates
                 },
-            })
+            }),
+            invalidatesTags: [{ type: 'Users', id: 'LIST'}]
         }),
-        delete: builder.mutation({
-            query: ({ userId }: DeleteUserParams) => ({
+        delete: builder.mutation<void, DeleteUserParams>({
+            query: ({ userId }) => ({
                 url: `/users/${userId}`,
                 method: 'DELETE',
-            })
+            }),
+            invalidatesTags: [{ type: 'Users', id: 'LIST'}]
         }),
-        getMe: builder.mutation({
-            query: () => ({
-                url: '/me',
-                method: 'GET',
-            })
+        getMe: builder.query<User, void>({
+            query: () => '/me',
+            providesTags: [{ type: 'Users'}]
         })
     })
 })
@@ -40,8 +38,8 @@ const userApiSlice = apiSlice.injectEndpoints({
 export const {
     useUpdateMutation,
     useDeleteMutation,
-    useGetUserByIdMutation,
-    useGetMeMutation
+    useGetUserByIdQuery,
+    useGetMeQuery
 } = userApiSlice
 
 

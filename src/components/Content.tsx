@@ -12,9 +12,7 @@ import Filter from './Filter'
 const Content = () => {
   const [sort, setSort] = useState(false)
   const [sortMethod, setSortMethod] = useState('Most Popular')
-  const [modal, setModal] = useState(false) 
   const filters = useSelector(getFilters)
-  const onClick= () => setModal(!modal)
 
   const handleChangeSortMethod = (sort: SortsType) => {
     setSortMethod(sort);
@@ -23,20 +21,6 @@ const Content = () => {
 
   return (
       <section className='p-4 md:p-6 flex-1'>
-          {modal && <Modal setModal={setModal}>
-              <button 
-              onClick={() => {
-                onClick()
-                // eslint-disable-next-line no-restricted-globals
-                history.replaceState(null, '', '/')
-              }}
-              title='Close Portal'
-              className='sticky text-xl top-1 float-right bg-white z-20 text-black'>
-                <MdOutlineClose />
-              </button>
-              <ProductPage />
-          </Modal>
-        }
         <div className='flex items-center gap-2 text-2xl'>
             <span><HiOutlineHome /></span>
             <div className='path flex gap-1 items-center text-black/40 text-sm md:text-base'>
@@ -86,38 +70,9 @@ const Content = () => {
         </div>
         </div>
         <div className='py-2 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 md:gap-4'>
-          <Product onClick={() => {
-            onClick();
-            window.history.replaceState(null, '', '/product/2')
-          }} />
-          <Product onClick={() => {
-            onClick();
-            window.history.replaceState(null, '', '/product/2')
-          }} />
-          <Product onClick={() => {
-            onClick();
-            window.history.replaceState(null, '', '/product/2')
-          }} />
-          <Product onClick={() => {
-            onClick();
-            window.history.replaceState(null, '', '/product/2')
-          }} />
-          <Product onClick={() => {
-            onClick();
-            window.history.replaceState(null, '', '/product/2')
-          }} />
-          <Product onClick={() => {
-            onClick();
-            window.history.replaceState(null, '', '/product/2')
-          }} />
-          <Product onClick={() => {
-            onClick();
-            window.history.replaceState(null, '', '/product/2')
-          }} />
-          <Product onClick={() => {
-            onClick();
-            window.history.replaceState(null, '', '/product/2')
-          }} />
+          {Array(10).fill('el').map((el, index) => (
+            <Product key={index} id={index} />
+          ))}
         </div>
       </section>
   )

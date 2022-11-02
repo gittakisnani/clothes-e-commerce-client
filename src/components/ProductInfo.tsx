@@ -12,7 +12,7 @@ const ProductInfo = () => {
                     <div className='border-b'>
                         <div onClick={() => setHighlights(!highlights)} className='p-3 py-4 flex items-center gap-2 justify-between w-full relative'>
                             <h3>Highlights</h3>
-                            <span>
+                            <span className='cursor-pointer'>
                                 {highlights ? <IoIosArrowUp /> : <IoIosArrowDown />}
                             </span>
                         </div>
@@ -40,7 +40,7 @@ const ProductInfo = () => {
                     <div className='border-b'>
                         <div onClick={() => setDescription(!description)} className='p-3 py-4 flex items-center gap-2 justify-between w-full relative'>
                             <h3>Description</h3>
-                            <span>
+                            <span className='cursor-pointer'>
                                 {description ? <IoIosArrowUp /> : <IoIosArrowDown />}
                             </span>
                         </div>
@@ -59,7 +59,7 @@ const ProductInfo = () => {
                     <div className='border-b'>
                         <div onClick={() => setDetails(!details)} className='p-3 py-4 flex items-center gap-2 justify-between w-full relative'>
                             <h3>Details</h3>
-                            <span>
+                            <span className='cursor-pointer'>
                                 {details ? <IoIosArrowUp /> : <IoIosArrowDown />}
                             </span>
                         </div>
