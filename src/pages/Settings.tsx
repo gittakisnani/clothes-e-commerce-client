@@ -117,12 +117,14 @@ const Settings = ({ setModal, setModalInfo }: Props) => {
   }, [userInfo]);
 
   useEffect(() => {
-    setModal(true);
-    setModalInfo({
+    if(isLoading || loadUserLoading || deleteUserLoading) {
+      setModal(true);
+      setModalInfo({
       icon: spinner,
       iconColor: '',
       text: isLoading ? 'Updating user infos...' : loadUserLoading ? 'Loading user infos...' : deleteUserLoading ? 'Deleting user...' : 'Loading....'
-    })
+     })
+    }
   }, [isLoading, loadUserLoading, deleteUserLoading]);
 
 
