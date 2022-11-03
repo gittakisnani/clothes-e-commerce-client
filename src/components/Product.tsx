@@ -2,7 +2,19 @@ import { useRef, useState } from 'react'
 import { TbShoppingCart, AiFillHeart, AiOutlineHeart, BsCheckAll } from '../Icons'
 import SmallModal from './SmallModel'
 import { Link } from 'react-router-dom'
-const Product = ({ id } : { id: number }) => {
+
+export interface ProductProps {
+  id: number, 
+  imgSrc: string,
+  price: number,
+  oldPrice?: number,
+  bestSeller: boolean,
+  title: string
+  similars?: number[]
+  sizes?: string[]
+}
+
+const Product = ({ id, imgSrc, price, oldPrice, bestSeller, title }: ProductProps) => {
 
   const [open, setOpen] = useState(false);
   const [smallModelText, setSmallModelText] = useState('')
@@ -32,9 +44,9 @@ const Product = ({ id } : { id: number }) => {
           <p>{smallModelText}</p>
         </div>
       </SmallModal>
-      <div className='p-2 opacity-70 py-1 font-semibold text-sm rounded-md bg-purpleSecondary text-purplePrimary uppercase absolute top-4 left-4'>
+      {bestSeller && <div className='p-2 opacity-70 py-1 font-semibold text-sm rounded-md bg-purpleSecondary text-purplePrimary uppercase absolute top-4 left-4'>
         best seller
-      </div>
+      </div>}
       <button
       ref={likeButtonRef}
       onClick={likeButtonClicked}
@@ -43,18 +55,18 @@ const Product = ({ id } : { id: number }) => {
         {liked ? <AiFillHeart /> : <AiOutlineHeart/>}
       </button>
       <div className="image-wrapper">
-        <img src="https://assets.adidas.com/images/h_840,f_auto,q_auto,fl_lossy,c_fill,g_auto/0a98a6e522934d3f964ead2400b45f9f_9366/Adicolor_Essentials_Trefoil_Hoodie_Beige_HE7198_21_model.jpg" alt="Product" />
+        <img src={imgSrc} alt="Product" />
       </div>
       <div className="details p-2">
           <Link to={'product?product=' + id}>
             <h4 className="product-name text-lg font-medium">
-              Line-Pattern Zipper Sweatshirt
+              {title}
             </h4>
           </Link>
         <div className="flex justify-between items-center pt-4">
           <div className="price-wrapper flex flex-col">
             <p className="text-primaryLight text-sm">Price</p>
-            <p className="text-xl font-semibold">$200</p>
+            <p className="text-xl font-semibold">${price}</p>
           </div>
           <button 
           ref={cartButtonRef}

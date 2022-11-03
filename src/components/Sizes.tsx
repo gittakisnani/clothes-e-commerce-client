@@ -1,7 +1,7 @@
 import { useState } from 'react'
-import { SIZES } from '../config/config'
+import { SIZES } from '../config/config';
 
-const Sizes = () => {
+const Sizes = ({ sizes } : { sizes: string[]}) => {
     const [selectedSize, setSelectedSize] = useState<null | string>(null!)
 
     const handleSelectSize = (e: any) => setSelectedSize(e.target.textContent);
@@ -9,7 +9,7 @@ const Sizes = () => {
     <div>
         <p className='font-bold pb-2'>Size</p>
         <div className='flex flex-wrap gap-1'>
-            {SIZES.map(size => (
+            {(sizes || SIZES).map(size => (
                 <div
                 onClick={handleSelectSize}
                 key={size}

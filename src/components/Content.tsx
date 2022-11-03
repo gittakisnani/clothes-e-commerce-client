@@ -8,6 +8,7 @@ import ProductPage from './ProductPage'
 import { useSelector } from 'react-redux'
 import { getFilters } from '../feature/filtersSlice'
 import Filter from './Filter'
+import products from '../data/products'
 
 const Content = () => {
   const [sort, setSort] = useState(false)
@@ -70,8 +71,8 @@ const Content = () => {
         </div>
         </div>
         <div className='py-2 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 md:gap-4'>
-          {Array(10).fill('el').map((el, index) => (
-            <Product key={index} id={index} />
+          {products.map(pr => (
+            <Product id={pr.id} key={pr.id} title={pr.title} imgSrc={pr.imgSrc} oldPrice={pr.oldPrice} price={pr.price} bestSeller={pr.bestSeller} />
           ))}
         </div>
       </section>

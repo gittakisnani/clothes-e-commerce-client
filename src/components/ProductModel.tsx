@@ -24,7 +24,7 @@ const ProductModel = () => {
         className='sticky text-xl top-1 float-right bg-white z-20 text-black'>
         <MdOutlineClose />
         </button>
-        <ProductPage />
+        <ProductPage id={searchParams.get('product')} />
     </Modal>
   )
 }
