@@ -7,7 +7,8 @@ import { Props } from '../App';
 import { useGetMeQuery } from '../feature/userApiSlice';
 
 const HeaderLayout = ({ setModal, setModalInfo }: Props) => {
-  const [filters, setFilters] = useState(false)
+  const [filters, setFilters] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(false)
   const { width } = useWindowSize();
   const { data: me } = useGetMeQuery()  
 
@@ -15,9 +16,13 @@ const HeaderLayout = ({ setModal, setModalInfo }: Props) => {
     setFilters(width! >= 1024 ? true : filters)
   }, [filters, width])
 
+  useEffect(() => {
+    setLoggedIn(Boolean(me?._id))
+  }, [me])
+
   return (
     <>
-    <Header setFilters={setFilters} user={Boolean(me)} setModal={setModal} setModalInfo={setModalInfo} />
+    <Header setFilters={setFilters} user={loggedIn} setModal={setModal} setModalInfo={setModalInfo} />
     <div className='flex'>
         {(filters || width! >= 1024 ) && <FilterBar setFilters={setFilters} />} 
         <Outlet />

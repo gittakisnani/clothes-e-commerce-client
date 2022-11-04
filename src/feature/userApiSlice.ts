@@ -29,8 +29,8 @@ const userApiSlice = apiSlice.injectEndpoints({
         }),
         getMe: builder.query<User, void>({
             query: () => '/me',
-            providesTags: [{ type: 'Users'}]
-        })
+            keepUnusedDataFor: 1,
+        }),
     })
 })
 

@@ -49,16 +49,20 @@ const Header = ({ setFilters, user, setModal, setModalInfo } : HeaderProps) => {
                 </div>
                 {(width! >=  1024 || !searchBar) &&  <div className="flex justify-end items-center gap-4">
                     {width! >= 1024 && user && <>
-                        <button 
-                        className="p-2 flex items-center gap-1 justify-center bg-purpleSecondary text-purplePrimary rounded-md">
-                            <p className="font-semibold">Whishlist</p>
-                            <span><AiOutlineHeart size={'20px'} /></span>
-                        </button>
-                        <button 
-                        className="p-2 flex items-center gap-1 justify-center bg-purpleSecondary text-purplePrimary rounded-md">
-                            <p className="font-semibold">My cart</p>
-                            <span><TbShoppingCart size={'20px'} /></span>
-                        </button>
+                        <Link to='/wishlist'>
+                            <button 
+                            className="p-2 flex items-center gap-1 justify-center bg-purpleSecondary text-purplePrimary rounded-md">
+                                <p className="font-semibold">Whishlist</p>
+                                <span><AiOutlineHeart size={'20px'} /></span>
+                            </button>
+                        </Link>
+                        <Link to='/mycart'>
+                            <button 
+                            className="p-2 flex items-center gap-1 justify-center bg-purpleSecondary text-purplePrimary rounded-md">
+                                <p className="font-semibold">My cart</p>
+                                <span><TbShoppingCart size={'20px'} /></span>
+                            </button>
+                        </Link>
                     </>}
                     {width! >= 1024 && !user && <>
                        <Link to='/login'>

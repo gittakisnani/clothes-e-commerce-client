@@ -1,7 +1,6 @@
 import{ createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-
 const baseQuery = fetchBaseQuery({
-    baseUrl: 'https://e-commerce-clothes-server.onrender.com',
+    baseUrl: process.env.REACT_APP_API,
     credentials: 'include',
 })
 

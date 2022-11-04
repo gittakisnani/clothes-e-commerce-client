@@ -60,43 +60,47 @@ const UserMenu = ({ setUserMenu, user, setModal, setModalInfo }: UserMenuProps) 
         ? (<>
             {width! < 1024 && 
         <>
-            <div onClick={() => setUserMenu(false)} className='duration-200 hover:bg-secondaryLight ease-linear flex items-center gap-2 p-2 cursor-pointer'>
+            <Link to='/wishlist'>
+            <button onClick={() => setUserMenu(false)} className='duration-200 hover:bg-secondaryLight ease-linear flex items-center gap-2 p-2 cursor-pointer'>
                 <span><AiOutlineHeart /></span>
                 <p>Wishlist</p>
-            </div>
-            <div onClick={() => setUserMenu(false)} className='duration-200 hover:bg-secondaryLight ease-linear flex items-center gap-2 p-2 cursor-pointer'>
+            </button>
+            </Link>
+            <Link to='/mycart'>
+            <button onClick={() => setUserMenu(false)} className='duration-200 hover:bg-secondaryLight ease-linear flex items-center gap-2 p-2 cursor-pointer'>
                 <span><TbShoppingCart /></span>
                 <p>My Shopping cart</p>
-            </div>
+            </button>
+            </Link>
         </>
         }
         <Link to='/product/new'>
-            <div onClick={() => setUserMenu(false)} className='duration-200 hover:bg-secondaryLight ease-linear flex items-center gap-2 p-2 cursor-pointer'>
+            <button onClick={() => setUserMenu(false)} className='duration-200 hover:bg-secondaryLight ease-linear flex items-center gap-2 p-2 cursor-pointer'>
                 <span><MdAddCircleOutline /></span>
                 <p>Post New Product</p>
-            </div>
+            </button>
         </Link>
         <Link to='/settings'>
-            <div onClick={() => setUserMenu(false)} className='duration-200 hover:bg-secondaryLight ease-linear flex items-center gap-2 p-2 cursor-pointer'>
+            <button onClick={() => setUserMenu(false)} className='duration-200 hover:bg-secondaryLight ease-linear flex items-center gap-2 p-2 cursor-pointer'>
                 <span><FiSettings /></span>
                 <p>Settings</p>
-            </div>
+            </button>
         </Link>
-        <div onClick={handleLogout} className='duration-200 hover:bg-secondaryLight ease-linear flex items-center gap-2 p-2 cursor-pointer'>
+        <button onClick={handleLogout} className='duration-200 hover:bg-secondaryLight ease-linear flex items-center gap-2 p-2 cursor-pointer'>
             <span><FiLogOut /></span>
             <p>Logout</p>
-        </div>
+        </button>
         </>)
         : (<>
             <Link to='/register'>
-            <div onClick={() => setUserMenu(false)} className='duration-200 hover:bg-secondaryLight ease-linear flex items-center gap-2 p-2 cursor-pointer'>
+            <button onClick={() => setUserMenu(false)} className='duration-200 hover:bg-secondaryLight ease-linear flex items-center gap-2 p-2 cursor-pointer'>
                 <p>Register</p>
-            </div>
+            </button>
             </Link>
             <Link to='/login'>
-                <div onClick={() => setUserMenu(false)} className='duration-200 hover:bg-secondaryLight ease-linear flex items-center gap-2 p-2 cursor-pointer'>
+                <button onClick={() => setUserMenu(false)} className='duration-200 hover:bg-secondaryLight ease-linear flex items-center gap-2 p-2 cursor-pointer'>
                     <p>Login</p>
-                </div>
+                </button>
             </Link>        
         </>)
         }

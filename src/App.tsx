@@ -15,6 +15,8 @@ import Settings from "./pages/Settings";
 import { useState } from 'react'
 import Modal from "./components/Modal";
 import ProductModel from "./components/ProductModel";
+import WishList from "./pages/WishList";
+import MyCart from "./pages/MyCart";
 
 export interface ModalState {
   icon: React.ReactElement | null
@@ -59,6 +61,8 @@ function App() {
         <Route path="settings" element={<Settings setModal={setModal} setModalInfo={setModalInfo} />} />
         <Route element={<HeaderLayout setModal={setModal} setModalInfo={setModalInfo} />}>
           <Route index element={<Content />} />
+          <Route path='wishlist' element={<WishList />} />
+          <Route path='mycart' element={<MyCart />} />
           <Route path="product/:id" element={<ProductPage back />} />
           <Route path="product/new" element={<AddProductPage setModal={setModal} setModalInfo={setModalInfo}  />} />
           <Route path="product/edit/:id" element={<EditProductPage setModal={setModal} setModalInfo={setModalInfo} />} />

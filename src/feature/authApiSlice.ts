@@ -27,6 +27,7 @@ export const authApiSlice = apiSlice.injectEndpoints({
             url: '/logout',
             method: 'GET'
         }),
+        invalidatesTags: [{ type: 'Users', id: 'LIST' }]
     })
    })
 })

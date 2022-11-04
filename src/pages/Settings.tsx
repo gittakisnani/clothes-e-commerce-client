@@ -66,6 +66,8 @@ const Settings = ({ setModal, setModalInfo }: Props) => {
   const handleSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault()
 
+    console.log(userInfo)
+
     if(!Object.values(userInfo).every(vl => Boolean(vl))) {
       setErrMsg('All fields are required.');
       return;
@@ -75,6 +77,7 @@ const Settings = ({ setModal, setModalInfo }: Props) => {
     if(userInfo.about.length < 20) {
       return setErrMsg('About should be 20 characters at least')
     }
+
     try {
       await update({updates: userInfo, params: {userId: userInfo._id}})
       setModalInfo({
@@ -103,7 +106,7 @@ const Settings = ({ setModal, setModalInfo }: Props) => {
       setModal(false)
       if(!me) return navigate('/404');
 
-      setUserInfo(me)
+      setUserInfo(me);
     }
 
     getUser()
