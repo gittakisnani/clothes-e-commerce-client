@@ -2,7 +2,11 @@ import { useState } from 'react'
 import { DETAILS } from '../config/config';
 import { IoIosArrowUp, IoIosArrowDown, } from '../Icons'
 
-const ProductInfo = () => {
+export interface ProductInfoProps {
+    imgSrc: string
+}
+
+const ProductInfo = ({ imgSrc }: ProductInfoProps) => {
     const [highlights, setHighlights] = useState(false);
     const [description, setDescription] = useState(false);
     const [details, setDetails] = useState(false)
@@ -52,7 +56,7 @@ const ProductInfo = () => {
                                     <p>There's are few things better than the feeling of accomplishment. Especially when you can sink into it supported by the comfort of soft fleece, like with this adidas hoodie . Reward hard work and sore muscles and give into the opposite of effort. Because this pullover is all about ease. Which is very deserved.</p>
                                 </div>
                                 <div>
-                                    <img src="https://assets.adidas.com/images/h_840,f_auto,q_auto,fl_lossy,c_fill,g_auto/7d5d36a32fd24b6e8c27aeb000432b4b_9366/Stadium_Fleece_Badge_of_Sport_Hoodie_White_HU1522_21_model.jpg" alt="" />
+                                    <img src={imgSrc} alt="Product" />
                                 </div>
                         </div>}
                     </div>

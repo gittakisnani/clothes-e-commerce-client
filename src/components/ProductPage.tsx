@@ -103,7 +103,7 @@ const ProductPage = ({ back = false, id } : ProductPageProps) => {
                 <ProductServiceFeatures />
             </div> }
 
-            <ProductInfo />
+            <ProductInfo imgSrc={product?.imgSrc!} />
 
            <div className='p-4'>
                 <h3 className='uppercase pb-4 font-bold'>You may also like</h3>
